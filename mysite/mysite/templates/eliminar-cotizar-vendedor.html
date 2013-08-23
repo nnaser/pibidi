@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  <title>Mi primera pagina con estilo</title>
+      <style rel="stylesheet"  >
+  	{% include './eliminar-cotizar-vendedor.css' %}
+  </style>
+</head>
+<body>
+
+
+<div id="hd">
+	<div id="titulo">
+		<h2 id="nombre-sitio">Frasim vendedor</h2>
+	</div>
+	<div id="user">
+		<p>Bienvenido, Usuario. <a href="#">Cambiar password</a> / <a href="{% url vista_login%}">Salir</a></p>
+		
+	</div>
+</div>
+
+<div id ="imagen1">
+	<img  src="/templates/header.png">
+</div>
+
+<div id="cuerpo">
+	<img id="imagen2" src="/templates/frasim.png"  >
+	<div id='cssmenu'>
+		<ul>
+			<li class='has-sub '><a href='{% url ventas_vendedor%}'><span>Ventas</span></a>
+				<ul>
+					<li><a href='{% url ventas_vendedor%}'><span>Crear</span></a></li>
+					<li><a href='{% url carro_ventas_vendedor%}'><span>Visualizar Venta</span></a></li>
+					<li><a href='{% url eliminar_ventas_vendedor%}'><span>Eliminar</span></a></li>
+					
+				</ul>
+			</li>
+			
+			<li class='has-sub '><a href='{% url cotizar_vendedor%}'><span>Cotizaciones</span></a>
+				<ul>
+					<li><a href='{% url cotizar_vendedor%}'><span>Crear</span></a></li>
+					<li><a href='{% url carro_cotizar_vendedor%}'><span>Visualizar Cotizacion</span></a></li>
+					<li><a href='{% url eliminar_cotizar_vendedor%}'><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			
+			<li class='has-sub '><a href='{% url material_vendedor%}'><span>Material</span></a>
+				<ul>
+					<li><a href='{% url material_vendedor%}'><span>Lista Material</span></a></li>
+					
+					
+					
+				</ul>
+			</li>
+			
+			
+		</ul>
+	</div>
+	
+	<div id="contenido">
+		<div id='csshor'>
+		<ul>
+			<li><a href='{% url cotizar_vendedor%}'><span>Crear</span></a></li>
+			<li><a href='{% url carro_cotizar_vendedor%}'><span>Visualizar Cotizacion</span></a></li>
+			<li class="active"><a href='{% url eliminar_cotizar_vendedor%}'><span>Eliminar</span></a></li>
+			
+		</ul>
+		</div>
+			
+		<div id="ventana">
+			<img id="imagen3" src="/templates/footer.gif"  >
+			<h2>::::::Eliminar Cotizaciones::::::</h2>	
+				<form  action="" method="POST">
+					{%csrf_token%}
+					<div id="tabla">
+						<table size="15">
+							
+							<tr>
+								<th scope="col" width=100>seleccion</th>
+								<th scope="col" width=100>Numero</th>
+								<th scope="col" width=100>Rut vendedor</th>
+								<th scope="col" width=100>Fecha</th>
+								<th scope="col" width=150>Hora</th>
+								
+							</tr>
+							
+							{% if cotizaciones%}
+							
+								{% for elemento in cotizaciones %}
+									<tr class="aa" bgcolor="silver">
+										<td width=100> <input type="checkbox" name="{{elemento.nro_cotizacion}}" value="{{elemento.nro_cotizacion}}"> </td>
+										<td width=100>{{elemento.nro_cotizacion}}</td>
+										<td width=100>{{elemento.rut_vendedor}}</td>
+										<td width=100>{{elemento.fecha_cotizacion}}</td>
+										<td width=100>{{elemento.hora_cotizacion}}</td>
+										
+									</tr>
+								{% endfor %}
+							{% endif %}
+							
+						
+							
+						</table>
+					
+					</div>
+					<input id="eliminar" type="submit" value="Eliminar" name="chupeta">
+				</form>
+			
+			
+		
+		</div>
+	</div>
+	
+</div>
+
+
+<address id="contacto">Autor: Caitani  ,  Direccion: Frasim #3333  , Fono: (02) 8403854 </address>
+
+</body>
+</html>

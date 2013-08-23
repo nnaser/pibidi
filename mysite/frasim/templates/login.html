@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  <title>Mi primera pagina con estilo</title>
+  <link rel="stylesheet" href="site_media/login.css">
+</head>
+<body>
+	<div id ="imagen1">
+		<img  src="/image/header.png">
+	</div>
+	<div id ="imagen">
+		<img  src="/image/usuario.jpg">
+	</div>
+	
+	
+	<div id="marco">
+		
+		
+			
+				<form action="," method="POST">
+					
+					{%csrf_token%}
+					{{informacion}}
+					{{ form.as_p}}
+					<p name="parrafo">aaaaaaaaaaaaaaaaaaaaa</p>
+					<input type="submit" value="Login" name="chupeta">
+					<input type="submit" value="Xupeta" name="chupeta">
+					
+					
+				</form>
+				
+				
+				
+	</div>
+
+
+</body>
+</html>

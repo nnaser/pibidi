@@ -1,0 +1,632 @@
+body{
+	margin: 0px;
+	}
+#hd{
+	color: #ffc;
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	background-color: #417690;
+	width: 100%;
+	border-bottom: 1px solid #E5E5E5;
+	
+	}
+	
+#contacto{
+	position:absolute;
+	top: 615px;
+	left: 500px;}
+#hd a{
+	text-decoration: none;}
+
+#hd a:link, #hd a:visited {
+    color: white;
+}
+
+#hd a:hover {
+	color: red;
+    text-decoration: underline;
+}
+
+#hd h2{
+	margin-left: 10px;
+	color: #F4F479;
+	font-family: britannic Bold;}
+	
+#titulo{
+	float: left;
+	margin-right: 500px;}
+	
+#user{
+	margin-right:10px;
+	margin-top:5px;
+	float:right;}
+
+#cuerpo{
+	height: 637px;
+	width: 100%;
+	position:absolute;
+	top: 67px;
+	left: 0px;
+	background-color: white;
+	background: url(/templates/center_bg.gif) repeat-x 0px 0px;
+	background: url(/templates/border.gif) repeat-x 0px 600px;
+}
+
+#forma{
+	position:absolute;
+	top: 0px;
+	left: 20px;}
+
+#forma1{
+	position:absolute;
+	top: 40px;
+	left: 20px;}
+	
+#forma2{
+	position:absolute;
+	top: 80px;
+	left: 20px;}
+	
+#forma3{
+	position:absolute;
+	top: 120px;
+	left: 20px;}
+	
+#id_cod_bodega{
+	position:absolute;
+	top: 0px;
+	left:120px;}
+	
+#id_pasillo{
+	position:absolute;
+	top: 0px;
+	left:120px;}
+	
+#id_estante{
+	position:absolute;
+	top: 0px;
+	left:120px;}
+	
+#id_gaveta{
+	position:absolute;
+	top: 0px;
+	left:120px;}
+	
+#agregar{
+	position:absolute;
+	top: 180px;
+	left:20px;}
+	
+
+#imagen1 {
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	
+	}
+	
+#cuerpo a{
+	
+	text-decoration: none;}
+
+	
+#cuerpo #imagen2{
+	position:absolute;
+	top: 400px;
+	left: 100px;}
+	
+
+	
+
+	
+#contenido{
+	position:absolute;
+	top: 30px;
+	left: 450px;
+	height: 580px;
+	width: 900px;
+	background-color: white;}
+
+	
+
+
+#ventana{
+	color:black;
+	position:absolute;
+	top: 69px;
+	left: 0px;
+	height: 511px;
+	width: 100%;
+	background-color: white;}
+
+#ventana #imagen3{
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	height: 100px;
+	width: 100%;}
+	
+#ventana h2{
+	
+	position:absolute;
+	top: 0px;
+	left: 270px;}
+	
+#cssmenu{
+	position:absolute;
+	top: 30px;
+	left: 80px;
+	
+	}
+	
+#cssmenu > ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+	line-height: 1;
+}
+
+/* The container */
+#cssmenu > ul {
+	display: block;
+	position: relative;
+	width: 150px;
+}
+
+	/* The list elements which contain the links */
+	#cssmenu > ul li {
+		display: block;
+		position: relative;
+		margin: 0;
+		padding: 0;
+		width: 150px;	
+	}
+
+		/* General link styling */
+		#cssmenu > ul li a {
+			/* Layout */
+			display: block;
+			position: relative;
+			margin: 0;
+			border-top: 1px dotted #3a3a3a;
+			border-bottom: 1px dotted #1b1b1b;
+			padding: 11px 20px;
+			width: 110px;
+
+			/* Typography */
+			font-family: Helvetica, Arial, sans-serif;
+			color: #d8d8d8;
+			text-decoration: none;
+			text-transform: uppercase;
+			text-shadow: 0 1px 1px #000;
+			font-size: 13px;
+			font-weight: 300;
+
+			/* Background & effects */
+			background: #282828;
+		}
+
+		/* Rounded corners for the first link of the menu/submenus */
+		#cssmenu > ul li:first-child>a {
+			border-top-left-radius: 4px;
+			border-top-right-radius: 4px;
+			border-top: 0;
+		}
+
+		/* Rounded corners for the last link of the menu/submenus */
+		#cssmenu > ul li:last-child>a {
+			border-bottom-left-radius: 4px;
+			border-bottom-right-radius: 4px;
+			border-bottom: 0;
+		}
+
+
+		/* The hover state of the menu/submenu links */
+		#cssmenu > ul li>a:hover, #cssmenu > ul li:hover>a {
+			color: #fff;
+			text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
+			background: #f23f37;
+			background: -webkit-linear-gradient(bottom, #f23f37, #f45d57);
+			background: -ms-linear-gradient(bottom, #f23f37, #f45d57); 
+			background: -moz-linear-gradient(bottom, #f23f37, #f45d57);
+			background: -o-linear-gradient(bottom, #f23f37, #f45d57);
+			border-color: transparent;
+		}
+
+		/* The arrow indicating a submenu */
+		#cssmenu > ul .has-sub>a::after {
+			content: '';
+			position: absolute;
+			top: 16px;
+			right: 10px;
+			width: 0px;
+			height: 0px;
+
+			/* Creating the arrow using borders */
+			border: 4px solid transparent;
+			border-left: 4px solid #d8d8d8; 
+		}
+
+		/* The same arrow, but with a darker color, to create the shadow effect */
+		#cssmenu > ul .has-sub>a::before {
+			content: '';
+			position: absolute;
+			top: 17px;
+			right: 10px;
+			width: 0px;
+			height: 0px;
+
+			/* Creating the arrow using borders */
+			border: 4px solid transparent;
+			border-left: 4px solid #000;
+		}
+
+		/* Changing the color of the arrow on hover */
+		#cssmenu > ul li>a:hover::after, #cssmenu > ul li:hover>a::after {
+			border-left: 4px solid #fff;
+		}
+
+		#cssmenu > ul li>a:hover::before, #cssmenu > ul li:hover>a::before {
+			border-left: 4px solid rgba(0, 0, 0, .3);
+		}
+
+	
+		/* THE SUBMENUS */
+		#cssmenu > ul ul {
+			position: absolute;
+			left: 150px;
+			top: -9999px;
+			padding-left: 5px;
+			opacity: 0;
+			/* The fade effect, created using an opacity transition */
+			-webkit-transition: opacity .3s ease-in;
+			-moz-transition: opacity .3s ease-in;
+			-o-transition: opacity .3s ease-in;
+			-ms-transition: opacity .3s ease-in;
+		}
+
+		/* Showing the submenu when the user is hovering the parent link */
+		#cssmenu > ul li:hover>ul {
+			top: 0px;
+			opacity: 1;
+		}
+		
+		
+		
+		
+		
+
+		
+@import url(http://fonts.googleapis.com/css?family=Capriola);
+
+
+
+/* Menu CSS */ 
+
+
+
+#csshor, #csshor ul, #csshor ul li, #csshor ul li a{
+	
+	padding: 0;
+	margin: 0.1px;
+	line-height: 1;
+	font-family: 'Capriola', sans-serif;
+	
+}
+
+#csshor:before, #csshor:after, #csshor > ul:before, #csshor > ul:after {
+
+	content: '';
+	display: table;
+	
+}
+
+
+#csshor:after, #csshor > ul:after {
+
+	clear: both;
+	
+}
+
+#csshor {
+
+	zoom:1;
+	height: 69px;
+	background: url(/templates/bottom-bg.png) repeat-x center bottom;
+	border-radius: 2px;
+	
+}
+
+#csshor ul{
+
+	background: url(/templates/nav-bg.png) repeat-x 0px 4px;
+	height: 69px;
+	
+}
+
+#csshor ul li{
+
+	float: left;
+	list-style: none;
+	
+}
+
+#csshor ul li a{
+	
+	display: block;
+	height: 37px;
+	padding: 22px 30px 0;
+	margin: 4px 2px 0;
+	border-radius: 2px 2px 0 0;
+	text-decoration: none;
+	font-size: 15px;
+	color: white;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .75);
+	font-weight: 400;
+	opacity: .9;
+	
+}
+
+#csshor ul li:first-child a{
+	
+	margin: 4px 2px 0 0;
+	
+}
+
+#csshor ul li a:hover, #csshor ul li.active a{
+	
+	background: url(/templates/color.png) center bottom;
+	display: block;
+	height: 37px;
+	margin-top: 0px;
+	padding-top: 26px;
+	color: #600000;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, .35);
+	opacity: 1;
+	
+}
+
+
+
+
+
+#ventana #caja-codigo-area{
+	position:absolute;
+	top: 10px;
+	left: 140px;
+	border: 2px solid #990000;
+}
+
+#ventana #caja-pasillo{
+	position:absolute;
+	top: 10px;
+	left: 140px;
+	border: 2px solid #990000;
+}
+
+#ventana #caja-estante{
+	position:absolute;
+	top: 10px;
+	left: 140px;
+	border: 2px solid #990000;
+}
+
+#ventana #caja-gaveta{
+	position:absolute;
+	top: 10px;
+	left: 140px;
+	border: 2px solid #990000;
+}
+
+#ventana #caja-pertenece{
+	position:absolute;
+	top: 10px;
+	left: 140px;
+	border: 2px solid #990000;
+}
+
+
+#codigo-area{
+	
+	position:absolute;
+	top: 90px;
+	left: 300px;
+	height: 50px;
+	width: 300px;
+	}
+	
+#pasillo{
+	
+	position:absolute;
+	top: 140px;
+	left: 300px;
+	height: 50px;
+	width: 300px;
+	}	
+
+#estante{
+	
+	position:absolute;
+	top: 190px;
+	left: 300px;
+	height: 50px;
+	width: 300px;
+	}
+	
+#gaveta{
+	
+	position:absolute;
+	top: 240px;
+	left: 300px;
+	height: 50px;
+	width: 300px;
+	}
+
+#pertenece{
+	
+	position:absolute;
+	top: 290px;
+	left: 300px;
+	height: 50px;
+	width: 300px;
+	}
+
+
+    #myButton {
+        
+		position:absolute;
+		top: 220px;
+		left: 130px;
+        -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        box-shadow:inset 0px 1px 0px 0px #ffffff;
+        
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+        background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:-o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:-ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
+        
+        background-color:#ffffff;
+        
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        border-radius:6px;
+        
+        border:1px solid #dcdcdc;
+        
+        display:inline-block;
+        color:#666666;
+        font-family:arial;
+        font-size:15px;
+        font-weight:bold;
+        padding:6px 24px;
+        text-decoration:none;
+        
+        text-shadow:0px 1px 0px #ffffff;
+        
+    }
+    #myButton:hover {
+        
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff));
+        background:-moz-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        background:-webkit-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        background:-o-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        background:-ms-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
+        
+        background-color:#f6f6f6;
+    }
+    #myButton:active {
+        position:absolute;
+        top:101px;
+    }
+
+
+
+    #Boton {
+        position:absolute;
+		top: 370px;
+		left: 560px;
+        -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        box-shadow:inset 0px 1px 0px 0px #ffffff;
+        
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+        background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:-o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:-ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
+        
+        background-color:#ffffff;
+        
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        border-radius:6px;
+        
+        border:1px solid #dcdcdc;
+        
+        display:inline-block;
+        color:#666666;
+        font-family:arial;
+        font-size:15px;
+        font-weight:bold;
+        padding:6px 24px;
+        text-decoration:none;
+        
+        text-shadow:0px 1px 0px #ffffff;
+        
+    }
+    #Boton:hover {
+        
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff));
+        background:-moz-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        background:-webkit-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        background:-o-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        background:-ms-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
+        
+        background-color:#f6f6f6;
+    }
+    #Boton:active {
+        position:absolute;
+        top:301px;
+    }
+
+	
+
+#cssotro {
+	position:absolute;
+	top: 100px;
+	left: 0px;
+	width: 130px;
+	border-style: solid solid none solid;
+	border-color: #D76100;
+	border-size: 1px;
+	border-width: 1px;
+	padding:0px;
+	}
+	
+	#cssotro ul{
+	margin:0px;
+	padding:0px;
+	list-style:none;
+	}
+	
+	#cssotro li a {
+		height: 32px;
+		height: 24px;
+		text-decoration: none;
+		font-weight:normal;
+		color: #9E3C02;
+		display: block;
+		background: url(/templates/menu4.gif);
+		padding: 8px 0 0 30px;
+		}
+		
+	#cssotro li a:hover{
+		color: #fff;
+		background: url(/templates/menu4.gif) 0 -32px;
+		padding: 8px 0 0 30px;
+		
+		}
+	
+
+
+#cssformulario {
+	position:absolute;
+	top: 100px;
+	left: 250px;
+	width: 500px;
+
+
+}
+	

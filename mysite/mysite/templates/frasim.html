@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  <title>Mi primera pagina con estilo</title>
+  <link rel="stylesheet" href="/css/frasim.css">
+</head>
+<body>
+
+
+<div id="hd">
+	<div id="titulo">
+		<h2 id="nombre-sitio">Frasim vendedor</h2>
+	</div>
+	<div id="user">
+		<p>Bienvenido, Usuario. <a href="#">Cambiar password</a> / <a href="{% url vista_login%}">Salir</a></p>
+		
+	</div>
+</div>
+
+<div id ="imagen1">
+	<img  src="header.png">
+</div>
+
+<div id="cuerpo">
+	
+	<img id="imagen2" src="frasim.png"  >
+	<div id='cssmenu'>
+		<ul>
+			<li class='has-sub '><a href='frasim.html'><span>Ventas</span></a>
+				<ul>
+					<li><a href='frasim.html'><span>Crear</span></a></li>
+					<li><a href='eliminar.html'><span>Eliminar</span></a></li>
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='#'><span>Cotizaciones</span></a>
+				<ul>
+					 <li><a href='cotizar.html'><span>Crear</span></a></li>
+					 <li><a href='eliminar-cotizar.html'><span>Eliminar</span></a></li>
+					 
+				</ul>
+			</li>
+			<li><a href='materiales.html'><span>Materiales</span></a></li>
+		</ul>
+	</div>
+	
+	<div id="contenido">
+		
+		<div id='csshor'>
+		<ul>
+			<li class='active '><a href="frasim.html"><span>Crear</span></a></li>
+			<li><a href="eliminar.html"><span>Eliminar</span></a></li>
+			
+		</ul>
+		</div>
+		
+		<div id="ventana">
+			<img id="imagen3" src="footer.gif"  >
+			<h2>::::::Crear Ventas::::::</h2>	
+			<div id="num-venta">
+				<p>Numero de venta :</p>
+				<input type="text" size="15" maxlength="30" value="Numero"  id="caja-numero">
+				</input>
+			</div>
+			<div id="fecha">
+				<p>Fecha :</p>
+				<input type="text" size="10" maxlength="30" value="DD/MM/AAAA"  id="caja-fecha">
+				</input>
+			</div>
+			<div id="hora">
+				<p>Hora :</p>
+				<input type="text" size="5" maxlength="30" value="HH:MM"  id="caja-hora">
+				</input>
+			</div>
+			
+			<div id="material">
+				<p>Nombre del producto :</p>
+				<input type="text" size="15" maxlength="30" value="Nombre"  id="caja-material">
+				</input>
+			</div>
+			
+			<div id="tabla">
+				<table size="15">
+					
+					<tr>
+						<th scope="col" width=100>Cantidad</th>
+						<th scope="col" width=100>Rut vendedor</th>
+						<th scope="col" width=100>Codigo</th>
+						<th scope="col" width=150>Nombre Producto</th>
+						<th scope="col" width=100>Precio</th>
+					</tr>
+					
+					
+					<tr  class= "aa" bgcolor="silver">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					
+				
+					<tr class= "aa" bgcolor="white">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="silver">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="white">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="silver">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="white">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="silver">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="white">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="silver">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="white">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="white">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="white">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+					<tr class= "aa" bgcolor="white">
+						<td width=100>3</td>
+						<td width=100>17488881-7</td>
+						<td width=100>000</td>
+						<td width=150>Rueda</td>
+						<td width=100>$2000</td>
+					</tr>
+
+					
+				</table>
+			
+			</div>
+			<a href="http://www.google.com" id="myButton">Agregar Material</a>
+			<a href="http://jaidefinichon.com/" id="Boton">Generar Venta</a>
+			
+			
+		
+		</div>
+	</div>
+	
+</div>
+
+
+
+
+</body>
+</html>

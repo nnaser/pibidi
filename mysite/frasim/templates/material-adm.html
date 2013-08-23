@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  <title>Mi primera pagina con estilo</title>
+  <link rel="stylesheet" href="/css/material-adm.css">
+</head>
+<body>
+
+
+<div id="hd">
+	<div id="titulo">
+		<h2 id="nombre-sitio">Frasim administrador</h2>
+	</div>
+	<div id="user">
+		<p>Bienvenido, Usuario. <a href="#">Cambiar password</a> / <a href="{% url vista_login%}">Salir</a></p>
+		
+	</div>
+</div>
+
+<div id ="imagen1">
+	<img  src="header.png">
+</div>
+
+<div id="cuerpo">
+	
+	<img id="imagen2" src="frasim.png"  >
+	<div id='cssmenu'>
+		<ul>
+			<li class='has-sub '><a href='#'><span>Bodegas y Areas</span></a>
+				<ul>
+					<li><a href='adm.html'><span>Agregar</span></a></li>
+					<li><a href='actualizar-bodega.html'><span>Actualizar</span></a></li>
+					<li><a href='eliminar-bodega.html'><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='#'><span>Cotizaciones</span></a>
+				<ul>
+					<li><a href='cotizar-adm.html'><span>Crear</span></a></li>
+					<li><a href='eliminar-cotizar-adm.html'><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='#'><span>Despachos</span></a>
+				<ul>
+					<li><a href='despacho-adm.html'><span>Agregar</span></a></li>
+					<li><a href='eliminar-despacho-adm.html'><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='#'><span>Material</span></a>
+				<ul>
+					<li><a href="{% url material_adm%}"><span>Agregar</span></a></li>
+					<li><a href="actualizar-material-adm.html"><span>Actualizar</span></a></li>
+					<li><a href="{% url eliminar_material_adm%}"><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='#'><span>Orden de Compra</span></a>
+				<ul>
+					<li><a href='orden-adm.html'><span>Agregar</span></a></li>
+					<li><a href='eliminar-orden-adm.html'><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='#'><span>Proveedores</span></a>
+				<ul>
+					<li><a href='proveedor-adm.html'><span>Agregar</span></a></li>
+					<li><a href='actualizar-proveedor-adm.html'><span>Actualizar</span></a></li>
+					<li><a href='eliminar-proveedor-adm.html'><span>Eliminar</span></a></li>
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='#'><span>Vendedores</span></a>
+				<ul>
+					<li><a href='vendedor-adm.html'><span>Agregar</span></a></li>
+					<li><a href='actualizar-vendedor-adm.html'><span>Actualizar</span></a></li>
+					<li><a href='eliminar-vendedor-adm.html'><span>Eliminar</span></a></li>
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='#'><span>Ventas</span></a>
+				<ul>
+					<li><a href='ventas-adm.html'><span>Crear</span></a></li>
+					<li><a href='eliminar-ventas-adm.html'><span>Eliminar</span></a></li>
+					
+				</ul>
+			</li>
+			
+			
+		</ul>
+	</div>
+	
+	<div id="contenido">
+		
+		<div id='csshor'>
+			<ul>
+				<li  class='active '><a href="material-adm.html"><span>Agregar</span></a></li>
+				<li><a href='actualizar-material-adm.html'><span>Actualizar</span></a></li>
+				<li ><a href="eliminar-material-adm.html"><span>Eliminar</span></a></li>
+				
+			</ul>
+		</div>
+		
+		<div id="ventana">
+			
+			<h2>::::::Agregar Material::::::</h2>	
+			<form action="," method="POST">
+					
+					{%csrf_token%}
+					{{informacion}}
+					{{ form.as_p}}
+					
+					<input type="submit" value="Agregar">
+					
+					
+			</form>
+			
+			
+			
+			<a href="http://jaidefinichon.com/" id="Boton">Agregar Material</a>
+			
+			
+		
+		</div>
+	</div>
+	
+</div>
+
+
+
+
+</body>
+</html>
