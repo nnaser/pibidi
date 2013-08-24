@@ -41,12 +41,12 @@ class materialform(forms.Form):
 		('a', 'Administrador'),
 		('v', 'Vendedor'),
 		)
-		marca_material=forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar una marca', 'invalid': 'Ingresar una marca correcta'},max_length='20')#CharField(widget=forms.TextInput())
-		modelo_material=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar un modelo'})
+		marca_material=forms.RegexField(widget=forms.TextInput(attrs={ 'required': 'true' }),regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar una marca', 'invalid': 'Ingresar una marca correcta'},max_length='20')#CharField(widget=forms.TextInput())
+		modelo_material=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
 		
-		nombre_material=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar un nombre'})
-		precio_material=forms.IntegerField(error_messages={'required': 'Por favor ingresar precio', 'invalid': 'Ingresar un precio valido'})	
-		cantidad_material=forms.IntegerField(error_messages={'required': 'Por favor ingresar cantidad', 'invalid': 'Ingresar una cantidad valida'})
+		nombre_material=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
+		precio_material=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar un precio valido'})	
+		cantidad_material=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar una cantidad valida'})
 		
 		def clean(self):
 				
@@ -78,11 +78,11 @@ class materialform(forms.Form):
 
 class proveedorform(forms.Form):
 		rut_proveedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
-		nombre_proveedor=forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={ 'invalid': 'Ingresar un nombre valido'},max_length='40')
-		direc_proveedor=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar una direccion'})
-		fono_proveedor=forms.IntegerField(error_messages={'required': 'Por favor ingresar un telefono', 'invalid': 'Ingresar un telefono valido'})
-		movil_proveedor=forms.IntegerField(error_messages={'required': 'Por favor ingresar nro de celular', 'invalid': 'Ingresar un nro de celular valido'})
-		correo_proveedor=forms.EmailField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar email', 'invalid': 'Ingresar un email valido'})
+		nombre_proveedor=forms.RegexField(widget=forms.TextInput(attrs={ 'required': 'true' }),regex= "^[a-zA-Z ]*$",error_messages={ 'invalid': 'Ingresar un nombre valido'},max_length='40')
+		direc_proveedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
+		fono_proveedor=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'invalid': 'Ingresar un telefono valido'})
+		movil_proveedor=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'invalid': 'Ingresar un nro de celular valido'})
+		correo_proveedor=forms.EmailField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar un email valido'})
 		
 		def clean(self):
 				
@@ -116,16 +116,22 @@ class proveedorform(forms.Form):
 			if len(rut)<4 or len(rut)>30:
 				raise ValidationError('Nombre invalido, por favor ingrese un nombre entre 4 a 30 caracteres')
 			return rut		
+		def clean_direc_proveedor(self):
+			a=self.cleaned_data
+			rut=a.get('direc_proveedor')
+			if len(rut)<4 or len(rut)>30:
+				raise ValidationError('Direccion invalida, por favor ingrese una direccion entre 4 a 30 caracteres')
+			return rut	
 				
 				
 class vendedorform(forms.Form):
 	
 	rut_vendedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
-	nombre_vendedor=forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar nombre', 'invalid': 'Ingresar un nombre valido'},max_length='40')
-	direccion_vendedor=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar una direccion'})
-	contrasena_vendedor=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar contrasena'})
-	telefono_vendedor=forms.IntegerField(error_messages={'required': 'Por favor ingresar un telefono', 'invalid': 'Ingresar un telefono valido'})
-	edad_vendedor=forms.IntegerField(error_messages={'required': 'Por favor ingresar una edad', 'invalid': 'Ingresar una edad valida'})
+	nombre_vendedor=forms.RegexField(widget=forms.TextInput(attrs={ 'required': 'true' }),regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar nombre', 'invalid': 'Ingresar un nombre valido'},max_length='40')
+	direccion_vendedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar una direccion'})
+	contrasena_vendedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar contrasena'})
+	telefono_vendedor=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar un telefono', 'invalid': 'Ingresar un telefono valido'})
+	edad_vendedor=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar una edad', 'invalid': 'Ingresar una edad valida'})
 	opcion = forms.ChoiceField(widget = forms.Select(), choices = ([('admin','Administrador'), ('vendedor','Vendedor') ]))
 
 	def clean(self):
@@ -157,13 +163,14 @@ class vendedorform(forms.Form):
 	def clean_nombre_vendedor(self):
 		a=self.cleaned_data
 		rut=a.get('nombre_vendedor')
-		if len(rut)<4 or len(rut)>16:
+		if len(rut)<4 or len(rut)>20:
 			raise ValidationError('Nombre invalido, por favor ingrese un nombre entre 4 a 16 caracteres')
 		return rut
 
+
 class bodegaform(forms.Form):
 		
-		direccion=forms.CharField(widget=forms.TextInput())
+		direccion=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
 		
 		def clean(self):
 				
@@ -172,10 +179,10 @@ class bodegaform(forms.Form):
 				
 class areaform(forms.Form):
 		
-		cod_bodega=forms.CharField(widget=forms.TextInput())
-		pasillo=forms.CharField(widget=forms.TextInput())
-		estante=forms.CharField(widget=forms.TextInput())
-		gaveta=forms.CharField(widget=forms.TextInput())
+		cod_bodega=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
+		pasillo=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
+		estante=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
+		gaveta=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
 		
 		def clean(self):
 				
@@ -185,7 +192,7 @@ class areaform(forms.Form):
 class grupoform(forms.Form):
 
 
-	nombre_tipo_material=forms.CharField(widget=forms.TextInput())
+	nombre_tipo_material=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
 	cod_bodega=forms.CharField(widget=forms.TextInput())
 	cod_area=forms.CharField(widget=forms.TextInput())
 

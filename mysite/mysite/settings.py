@@ -66,7 +66,8 @@ MEDIA_URL = '/templates/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = 'C:/Users/Nico/mysite/mysite actual/mysite/mysite/templates/static'
+STATIC_ROOT = 'C:/Users/Nico/Documents/GitHub/pibidi/mysite/mysite/templates/static'
+
 
 
 
@@ -118,7 +119,7 @@ ROOT_URLCONF = 'mysite.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 #WSGI_APPLICATION = 'mysite.wsgi.application'
 
-TEMPLATE_DIRS = ( 'C:/Users/Nico/mysite/mysite actual/mysite/mysite/templates',
+TEMPLATE_DIRS = ( 'C:/Users/Nico/Documents/GitHub/pibidi/mysite/mysite/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

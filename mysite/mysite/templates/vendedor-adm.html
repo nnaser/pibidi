@@ -24,7 +24,7 @@
 </div>
 
 <div id="cuerpo">
-		<div class="alert-container">
+	<div class="alert-container">
         {% if messages %}
           {% for message in messages %}
             <div class="alert {% if message.tags %}alert-{{message.tags}}{% endif %}">
@@ -128,28 +128,35 @@
 					
 					{%csrf_token%}
 					<div id="forma">
-					<label>Rut:</label>
-					{{ form.rut_vendedor}}
+						<label>Rut:</label>
+						{{ form.rut_vendedor}}
+						<span style="font-weight: bold; color: #FF0000;">{{form.rut_vendedor.errors}}</span>	
 					</div>
 					<div id="forma1">
 					<label>Nombre:</label>
 					{{ form.nombre_vendedor}}
+					<span style="font-weight: bold; color: #FF0000;">{{form.nombre_vendedor.errors}}</span>	
 					</div>
 					<div id="forma2">
 					<label>Direccion:</label>
 					{{ form.direccion_vendedor}}
+
+					<span style="font-weight: bold; color: #FF0000;">{{form.direccion_vendedor.errors}}</span>	
 					</div>
 					<div id="forma3">
 					<label>Contrasena:</label>
 					{{ form.contrasena_vendedor}}
+					<span style="font-weight: bold; color: #FF0000;">{{form.contrasena_vendedor.errors}}</span>	
 					</div>
 					<div id="forma4">
 					<label>Fono:</label>
 					{{ form.telefono_vendedor}}
+					<span style="font-weight: bold; color: #FF0000;">{{form.telefono_vendedor.errors}}</span>	
 					</div>
 					<div id="forma5">
 					<label>Edad:</label>
 					{{ form.edad_vendedor}}
+					<span style="font-weight: bold; color: #FF0000;">{{form.edad_vendedor.errors}}</span>	
 					</div>
 					
 					<div id="forma6">
@@ -159,7 +166,7 @@
 					
 					
 					<input id="agregar" type="submit" value="Agregar">
-					
+					{{informacion}}
 					
 			</form>
 			</div>
