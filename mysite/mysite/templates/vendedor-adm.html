@@ -24,6 +24,16 @@
 </div>
 
 <div id="cuerpo">
+		<div class="alert-container">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{message.tags}}{% endif %}">
+              <a href="javascript:void(0)" class="close" data-dismiss="alert">×</a>
+              {{message}}
+            </div>
+          {% endfor %}
+        {% endif %}
+    </div>
 	<img id="imagen2" src="/templates/frasim.png"  >
 	<div id='cssmenu'>
 		<ul>

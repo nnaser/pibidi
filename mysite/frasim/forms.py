@@ -8,15 +8,20 @@ class loginform(forms.Form):
 		('a', 'Administrador'),
 		('v', 'Vendedor'),
 		)
-		nombre = forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar nombre', 'invalid': 'Ingresar un nombre correcto'},max_length='100')
-		contrasena= forms.CharField(widget=forms.PasswordInput(render_value=False),error_messages={'required': 'Por favor ingresar contrasena'})
+		nombre = forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar nombre', 'invalid': 'Ingresar un nombre correcto'},max_length='16')
+		contrasena= forms.CharField(widget=forms.PasswordInput(render_value=False,attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar contrasena'})
 		opcion = forms.ChoiceField(widget = forms.Select(), choices = ([('admin','Administrador'), ('vendedor','Vendedor') ]))
 	
 		
 		def clean(self):
 				
 				return self.cleaned_data
-				
+		def clean_nombre(self):
+			a=self.cleaned_data
+			rut=a.get('nombre')
+			if len(rut)<4 or len(rut)>16:
+				raise ValidationError('Por favor ingrese un nombre de mas de 4 caracteres')
+			return rut		
 		def clean_contrasena(self):
 			a=self.cleaned_data
 			pas=a.get('contrasena')
@@ -36,7 +41,7 @@ class materialform(forms.Form):
 		('a', 'Administrador'),
 		('v', 'Vendedor'),
 		)
-		marca_material=forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar una marca', 'invalid': 'Ingresar una marca correcta'},max_length='100')#CharField(widget=forms.TextInput())
+		marca_material=forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar una marca', 'invalid': 'Ingresar una marca correcta'},max_length='20')#CharField(widget=forms.TextInput())
 		modelo_material=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar un modelo'})
 		
 		nombre_material=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar un nombre'})
@@ -46,11 +51,34 @@ class materialform(forms.Form):
 		def clean(self):
 				
 				return self.cleaned_data
-		
+		def clean_marca_material(self):
+			a=self.cleaned_data
+			marca=a.get('marca_material')
+			if len(marca)<4:
+				raise ValidationError('Por favor ingrese una marca de mas de 4 caracteres')
+			return marca
+		def clean_modelo_material(self):
+			a=self.cleaned_data
+			marca=a.get('modelo_material')
+			if len(marca)<2:
+				raise ValidationError('Por favor ingrese un modelo de mas de 2 caracteres')
+			return marca
+		def clean_precio_material(self):
+			a=self.cleaned_data
+			b=a.get('precio_material')
+			if b<1:
+				raise ValidationError('Precio negativo, por favor ingrese un valor positivo')
+			return b
+		def clean_cantidad_material(self):
+			a=self.cleaned_data
+			b=a.get('cantidad_material')
+			if b<1:
+				raise ValidationError('Cantidad negativa, por favor ingrese un valor positivo')
+			return b		
 
 class proveedorform(forms.Form):
-		rut_proveedor=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar rut'})
-		nombre_proveedor=forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar nombre', 'invalid': 'Ingresar un nombre valido'},max_length='40')
+		rut_proveedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
+		nombre_proveedor=forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={ 'invalid': 'Ingresar un nombre valido'},max_length='40')
 		direc_proveedor=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar una direccion'})
 		fono_proveedor=forms.IntegerField(error_messages={'required': 'Por favor ingresar un telefono', 'invalid': 'Ingresar un telefono valido'})
 		movil_proveedor=forms.IntegerField(error_messages={'required': 'Por favor ingresar nro de celular', 'invalid': 'Ingresar un nro de celular valido'})
@@ -63,18 +91,36 @@ class proveedorform(forms.Form):
 		def clean_rut_proveedor(self):
 			a=self.cleaned_data
 			rut=a.get('rut_proveedor')
-			lista=rut.split('-')
 			c=['1','2','3','4','5','6','7','8','9','0','k']
-			if len(lista[0])<7 or lista[1] not in c:
-				raise ValidationError('Rut invalido')
+			if '-' in rut:
+				lista=rut.split('-')	
+				if len(lista[0])<7 or lista[1] not in c or len(lista[0])>8:
+					raise ValidationError('Rut invalido')
+				try:
+					h=int(lista[0])
+				except:
+					raise ValidationError('Rut invalido')
+			else:
+				if len(rut)>9 or len(rut)<8:
+					raise ValidationError('Rut invalido')
+				if rut[-1]!='k':
+					try:
+						int (rut)
+					except:
+						raise ValidationError('Rut invalido')
 			return rut
 			
-				
+		def clean_nombre_proveedor(self):
+			a=self.cleaned_data
+			rut=a.get('nombre_proveedor')
+			if len(rut)<4 or len(rut)>30:
+				raise ValidationError('Nombre invalido, por favor ingrese un nombre entre 4 a 30 caracteres')
+			return rut		
 				
 				
 class vendedorform(forms.Form):
 	
-	rut_vendedor=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar rut'})
+	rut_vendedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
 	nombre_vendedor=forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar nombre', 'invalid': 'Ingresar un nombre valido'},max_length='40')
 	direccion_vendedor=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar una direccion'})
 	contrasena_vendedor=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar contrasena'})
@@ -89,19 +135,30 @@ class vendedorform(forms.Form):
 	def clean_rut_vendedor(self):
 		a=self.cleaned_data
 		rut=a.get('rut_vendedor')
-		lista=rut.split('-')
 		c=['1','2','3','4','5','6','7','8','9','0','k']
-		d=['1','2','3','4','5','6','7','8','9','0']
-		if len(lista[0])<7 :
-			raise ValidationError('Rut invalido')
-		for b in d:
-
-			if lista[0]!=d[b] and b<len(d):
+		if '-' in rut:
+			lista=rut.split('-')	
+			if len(lista[0])<7 or lista[1] not in c or len(lista[0])>8:
 				raise ValidationError('Rut invalido')
-		for i in c:	
-			if lista[1]!=c[i] and i<len(c):
+			try:
+				h=int(lista[0])
+			except:
 				raise ValidationError('Rut invalido')
+		else:
+			if len(rut)>9 or len(rut)<8:
+				raise ValidationError('Rut invalido')
+			if rut[-1]!='k':
+				try:
+					int (rut)
+				except:
+					raise ValidationError('Rut invalido')
+		return rut
 
+	def clean_nombre_vendedor(self):
+		a=self.cleaned_data
+		rut=a.get('nombre_vendedor')
+		if len(rut)<4 or len(rut)>16:
+			raise ValidationError('Nombre invalido, por favor ingrese un nombre entre 4 a 16 caracteres')
 		return rut
 
 class bodegaform(forms.Form):

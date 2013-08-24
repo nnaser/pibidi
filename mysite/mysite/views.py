@@ -425,15 +425,15 @@ def vendedor_view(request):
 				p.telefono_vendedor=telefono_vendedor
 				p.edad_vendedor=edad_vendedor
 				p.rol=rol
-				p.save()
-							
-				
+				p.save()			
+				form = vendedorform()
+				ctx={'form':form}
+				messages.success(request,'Registro exitoso')
+				return render_to_response('vendedor-adm.html',ctx,context_instance=RequestContext(request))
+			else:
+				ctx={'form':form}
 
-				
-			
-			form = vendedorform()
-			ctx={'form':form}
-			return render_to_response('vendedor-adm.html',ctx,context_instance=RequestContext(request))
+				return render_to_response('vendedor-adm.html',ctx,context_instance=RequestContext(request))
 		else: #GET
 			form = vendedorform()
 			ctx={'form':form}
