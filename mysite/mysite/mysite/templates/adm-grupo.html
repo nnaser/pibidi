@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  <title>Mi primera pagina con estilo</title>
+    <style rel="stylesheet"  >
+  	{% include './adm-grupo.css' %}
+  </style>
+</head>
+<body>
+
+
+<div id="hd">
+	<div id="titulo">
+		<h2 id="nombre-sitio">Frasim administrador</h2>
+	</div>
+	<div id="user">
+		<p>Bienvenido, Usuario. <a href="#">Cambiar password</a> / <a href="{% url vista_login%}">Salir</a></p>
+		
+	</div>
+</div>
+<div id ="imagen1">
+	<img  src="/templates/header.png">
+</div>
+
+<div id="cuerpo">
+	
+	<img id="imagen2" src="/templates/frasim.png"  >
+	<div id='cssmenu'>
+		<ul>
+			<li class='has-sub '><a href='{% url vista_bodega%}'><span>Bodegas, Areas y Grupos</span></a>
+				<ul>
+					<li><a href='{% url vista_bodega%}'><span>Agregar</span></a></li>
+					<li><a href='{% url actualizar_bodega%}'><span>Actualizar</span></a></li>
+					<li><a href='{% url eliminar_bodega%}'><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='{% url cotizar_adm%}'><span>Cotizaciones</span></a>
+				<ul>
+					<li><a href='{% url cotizar_adm%}'><span>Crear</span></a></li>
+					<li><a href='{% url carro_cotizar%}'><span>Visualizar Cotizacion</span></a></li>
+					<li><a href='{% url eliminar_cotizar%}'><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='{% url despacho_adm%}'><span>Despachos</span></a>
+				<ul>
+					<li><a href='{% url despacho_adm%}'><span>Agregar</span></a></li>
+					<li><a href='{% url carro_despacho%}'><span>Visualizar Despacho</span></a></li>
+					<li><a href='{% url eliminar_despacho%}'><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='{% url material_adm%}'><span>Material</span></a>
+				<ul>
+					<li><a href='{% url material_adm%}'><span>Agregar</span></a></li>
+					<li><a href="{% url actualizar_material%}"><span>Actualizar</span></a></li>
+					<li><a href='{% url eliminar_material_adm%}'><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='{% url orden_adm%}'><span>Orden de Compra</span></a>
+				<ul>
+					<li><a href='{% url orden_adm%}'><span>Agregar</span></a></li>
+					<li><a href='{% url carro_orden%}'><span>Visualizar O/C</span></a></li>
+					<li><a href='{% url eliminar_orden%}'><span>Eliminar</span></a></li>
+					
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href="{% url agregar_proveedor%}"><span>Proveedores</span></a>
+				<ul>
+					<li><a href='{% url agregar_proveedor%}'><span>Agregar</span></a></li>
+					<li><a href="{% url actualizar_proveedor%}"><span>Actualizar</span></a></li>
+					<li><a href='{% url eliminar_proveedor%}'><span>Eliminar</span></a></li>
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href="{% url agregar_vendedor%}"><span>Vendedores</span></a>
+				<ul>
+					<li><a href='{% url agregar_vendedor%}'><span>Agregar</span></a></li>
+					<li><a href="{% url actualizar_vendedor%}"><span>Actualizar</span></a></li>
+					<li><a href='{% url eliminar_proveedor%}'><span>Eliminar</span></a></li>
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='{% url ventas_adm%}'><span>Ventas</span></a>
+				<ul>
+					<li><a href='{% url ventas_adm%}'><span>Crear</span></a></li>
+					<li><a href='{% url carro_ventas%}'><span>Visualizar Venta</span></a></li>
+					<li><a href='{% url eliminar_ventas%}'><span>Eliminar</span></a></li>
+					
+				</ul>
+			</li>
+			<li class='has-sub '><a href='{% url kits_adm%}'><span>KITS</span></a>
+				<ul>
+					<li><a href='{% url kits_adm%}'><span>Agregar</span></a></li>
+					<li><a href="{% url carro_kits_adm%}"><span>Actualizar</span></a></li>
+					<li><a href='{% url eliminar_kits_adm%}'><span>Eliminar</span></a></li>
+					
+				</ul>
+			</li>
+			<li><a href='{% url compatible%}'><span>Compatibilidad</span></a></li>
+			
+		</ul>
+	</div>
+	
+	<div id="contenido">
+		
+		<div id='csshor'>
+			<ul>
+				<li class="active"><a href='{% url vista_bodega%}'><span>Agregar</span></a></li>
+				<li><a href='{% url actualizar_bodega%}'><span>Actualizar</span></a></li>
+				<li><a href='{% url eliminar_bodega%}'><span>Eliminar</span></a></li>
+				
+			</ul>
+		</div>
+		
+		<div id="ventana">
+			<img id="imagen3" src="/templates/footer.gif"  >
+			<h2>::::::Agregar Grupo::::::</h2> 
+			<div id='cssotro'>
+				<ul>
+				   <li class="active"><a href="{% url vista_bodega%}"><span>Bodega</span></a></li>
+				   <li><a href="{% url vista_area%}"><span>Area</span></a></li>
+				   <li><a href="{% url vista_grupo%}"><span>Grupo</span></a></li>
+				</ul>
+			</div>
+		<div id='cssformulario'>
+				
+
+
+				<br><br><form action="," method="POST">
+					{%csrf_token%}
+					<div id="forma">
+							<label>Nombre grupo:</label>
+							{{ form.nombre_tipo_material}}
+					</div>
+					
+					<div id="forma1">
+							<label>Bodega:</label>
+							<select id="selec" name="opcion">
+							{% if bodegas%}
+									{% for elem in bodegas%}
+										<option value="{{elem.direccion}}">{{elem.direccion}}</option>
+									{% endfor %}
+							{% endif %}
+							</select>
+					</div>
+					<div id="forma2">
+							<label>Area:</label>
+							<select id="selec" name="opcion2">
+							{% if areas%}
+									{% for elemento in areas%}
+										<option value="{{elemento.cod_area}}">{{elemento.cod_area}}</option>
+									{% endfor %}
+							{% endif %}
+							</select>
+					</div>
+					
+					
+					<input id="agregar" type="submit" value="Agregar">
+
+					{{informacion}}
+					
+				</form>
+			
+		</div>
+	
+	</div>
+</div>
+
+
+<address id="contacto">Autor: Caitani  ,  Direccion: Frasim #3333  , Fono: (02) 8403854 </address>
+
+</body>
+</html>

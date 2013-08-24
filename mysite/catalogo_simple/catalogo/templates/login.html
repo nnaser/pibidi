@@ -1,0 +1,10 @@
+<html>
+    <h2>Login</h2>
+    <form method="post" action="/login/">
+        {% csrf_token %}
+        {% for field in login_form %}
+        {{field}}
+        {% endfor %}
+        <input type="submit" value="Login" />
+    </form>
+</html>

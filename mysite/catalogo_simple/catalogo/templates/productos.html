@@ -1,0 +1,13 @@
+<html>
+{% if user %} 
+	<p>Bienvenido {{user.username}} <a href="/logout/">Cerrar Sesión</a></p>
+{% endif %}
+<h1>PRODUCTOS</h1>
+    {% for producto in productos%}
+     <div class=“producto”>
+        <h2><a href="/productos/{{producto.id}}/">{{producto.nombre}}</a></h2>
+        <p>{{producto.descripcion}}</p>
+        <p>{{producto.precio}}</p>
+    </div>    
+    {% endfor %}
+</html>
