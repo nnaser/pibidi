@@ -1,0 +1,13 @@
+.alert-container {
+	position:fixed;
+	top:26px;
+	z-index: 99999;
+	width:100%;
+	height:0;
+	overflow: visible;
+	text-align: center;
+}
+.alert-container > .alert {
+	display: inline-block;
+	width: auto;
+}
