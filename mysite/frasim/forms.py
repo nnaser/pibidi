@@ -3,16 +3,6 @@ from django import *
 from django.core.exceptions import ValidationError
 
 
-# Support for HTML5 "required" attritbute
-old_build_attrs = forms.Widget.build_attrs
-def build_attrs(self, extra_attrs=None, **kwargs):
-    attrs = old_build_attrs(self, extra_attrs, **kwargs)
-    if self.is_required:
-        attrs["required"] = "required"
-    return attrs
- 
-forms.Widget.build_attrs = build_attrs
-
 class loginform(forms.Form):
 		TITLE_CHOICES = (
 		('a', 'Administrador'),
@@ -49,9 +39,9 @@ class materialform(forms.Form):
 		marca_material=forms.RegexField(regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar una marca', 'invalid': 'Ingresar una marca correcta'},max_length='100')#CharField(widget=forms.TextInput())
 		modelo_material=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar un modelo'})
 		
-		nombre_material=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar un nombre'})
-		precio_material=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar precio', 'invalid': 'Ingresar un precio valido'})	
-		cantidad_material=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar cantidad', 'invalid': 'Ingresar una cantidad valida'})
+		nombre_material=forms.CharField(widget=forms.TextInput(),error_messages={'required': 'Por favor ingresar un nombre'})
+		precio_material=forms.IntegerField(error_messages={'required': 'Por favor ingresar precio', 'invalid': 'Ingresar un precio valido'})	
+		cantidad_material=forms.IntegerField(error_messages={'required': 'Por favor ingresar cantidad', 'invalid': 'Ingresar una cantidad valida'})
 		
 		def clean(self):
 				
