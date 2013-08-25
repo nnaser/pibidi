@@ -1,5 +1,4 @@
-settings.py
-*.pyc
+
 
 #################
 ## Eclipse
@@ -191,7 +190,8 @@ $RECYCLE.BIN/
 #############
 
 *.py[co]
-
+settings.py
+*.pyc
 # Packages
 *.egg
 *.egg-info

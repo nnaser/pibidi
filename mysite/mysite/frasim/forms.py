@@ -82,8 +82,8 @@ class proveedorform(forms.Form):
 		rut_proveedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
 		nombre_proveedor=forms.RegexField(widget=forms.TextInput(attrs={ 'required': 'true' }),regex= "^[a-zA-Z ]*$",error_messages={ 'invalid': 'Ingresar un nombre valido'},max_length='40')
 		direc_proveedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
-		fono_proveedor=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'invalid': 'Ingresar un telefono valido'})
-		movil_proveedor=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'invalid': 'Ingresar un nro de celular valido'})
+		fono_proveedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'invalid': 'Ingresar un telefono valido'})
+		movil_proveedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'invalid': 'Ingresar un nro de celular valido'})
 		correo_proveedor=forms.EmailField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar un email valido'})
 		
 		def clean(self):
@@ -124,6 +124,23 @@ class proveedorform(forms.Form):
 			if len(rut)<4 or len(rut)>30:
 				raise ValidationError('Direccion invalida, por favor ingrese una direccion entre 4 a 30 caracteres')
 			return rut	
+		def clean_fono_proveedor(self):
+			a=self.cleaned_data
+			b=a.get('fono_proveedor')
+			if '-' in b:
+				lista=b.split('-')
+				if len(lista[1])<7:
+					raise ValidationError('telefono invalido, por favor ingrese un telefono entre 7 a 8 caracteres')
+				try:
+					int(lista[0])
+					int(lista[1])
+				except:
+					raise ValidationError('telefono invalido')
+			else:
+				try:
+					int(b)
+				except:
+					raise ValidationError('telefono invalido')
 				
 				
 				

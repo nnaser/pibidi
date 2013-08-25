@@ -1,6 +1,5 @@
 
-# Django settings for mysite project.
-#encoding:utf-8
+
 
 # Identificando la ruta del proyecto
 import os
