@@ -1,6 +1,3 @@
-
-
-
 # Identificando la ruta del proyecto
 import os
 
