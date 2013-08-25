@@ -141,7 +141,26 @@ class proveedorform(forms.Form):
 					int(b)
 				except:
 					raise ValidationError('telefono invalido')
-				
+			return b
+
+		def clean_movil_proveedor(self):
+			a=self.cleaned_data
+			b=a.get('movil_proveedor')
+			if '-' in b:
+				lista=b.split('-')
+				if len(lista[1])<8:
+					raise ValidationError('telefono invalido, por favor ingrese un telefono entre 8 a 9 caracteres')
+				try:
+					int(lista[0])
+					int(lista[1])
+				except:
+					raise ValidationError('telefono invalido')
+			else:
+				try:
+					int(b)
+				except:
+					raise ValidationError('telefono invalido, por favor ingrese solo numeros')
+			return b
 				
 				
 				
@@ -150,8 +169,8 @@ class vendedorform(forms.Form):
 	nombre_vendedor=forms.RegexField(widget=forms.TextInput(attrs={ 'required': 'true' }),regex= "^[a-zA-Z ]*$",error_messages={'required': 'Por favor ingresar nombre', 'invalid': 'Ingresar un nombre valido'},max_length='40')
 	direccion_vendedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar una direccion'})
 	contrasena_vendedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar contrasena'})
-	telefono_vendedor=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar un telefono', 'invalid': 'Ingresar un telefono valido'})
-	edad_vendedor=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar una edad', 'invalid': 'Ingresar una edad valida'})
+	telefono_vendedor=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={'required': 'Por favor ingresar un telefono', 'invalid': 'Ingresar un telefono valido'})
+	edad_vendedor=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar una edad valida'})
 	opcion = forms.ChoiceField(widget = forms.Select(), choices = ([('admin','Administrador'), ('vendedor','Vendedor') ]))
 
 	def clean(self):
@@ -186,6 +205,43 @@ class vendedorform(forms.Form):
 		if len(rut)<4 or len(rut)>20:
 			raise ValidationError('Nombre invalido, por favor ingrese un nombre entre 4 a 20 caracteres')
 		return rut
+	def clean_direccion_vendedor(self):
+		a=self.cleaned_data
+		rut=a.get('direccion_vendedor')
+		if len(rut)<4 or len(rut)>30:
+			raise ValidationError('Direccion invalida, por favor ingrese una direccion entre 4 a 30 caracteres')
+		return rut	
+	def clean_contrasena_vendedor(self):
+		a=self.cleaned_data
+		pas=a.get('contrasena_vendedor')
+		if len(pas)<4 or len(pas)>16:
+			raise ValidationError('Contrasena invalida, por favor ingrese una contrasena entre 4 a 16 caracteres')
+
+		return pas
+	def clean_telefono_vendedor(self):
+		a=self.cleaned_data
+		b=a.get('telefono_vendedor')
+		if '-' in b:
+			lista=b.split('-')
+			if len(lista[1])<7:
+				raise ValidationError('telefono invalido, por favor ingrese un telefono entre 7 a 8 caracteres')
+			try:
+				int(lista[0])
+				int(lista[1])
+			except:
+				raise ValidationError('telefono invalido')
+		else:
+			try:
+				int(b)
+			except:
+				raise ValidationError('telefono invalido')
+		return b
+	def clean_edad_vendedor(self):
+		a=self.cleaned_data
+		b=a.get('edad_vendedor')
+		if b<1:
+			raise ValidationError('Cantidad negativa, por favor ingrese un valor positivo')
+		return b	
 				
 
 class bodegaform(forms.Form):
@@ -207,8 +263,8 @@ class areaform(forms.Form):
 		
 		
 		pasillo=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar un numero entero positivo para el pasillo'})
-		estante=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar un numero entero positivo para el estante'})
-		gaveta=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar un numero entero positivo para la gaveta'})
+		estante=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar un numero entero positivo para el estante'})
+		gaveta=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar un numero entero positivo para la gaveta'})
 		
 		def clean(self):
 				
@@ -293,7 +349,12 @@ class ordenform(forms.Form):
 	def clean(self):
 				
 		return self.cleaned_data
-		
+	def clean_direc_emision(self):
+		a=self.cleaned_data
+		rut=a.get('direc_emision')
+		if len(rut)<8 or len(rut)>40:
+			raise ValidationError('direccion invalida, por favor ingrese una direccion entre 8 a 40 caracteres')
+		return rut	
 		
 class despachoform(forms.Form):
 	

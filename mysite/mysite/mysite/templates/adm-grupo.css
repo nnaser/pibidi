@@ -71,7 +71,13 @@ body{
 	top: 80px;
 	left: 20px;}
 	
-	
+
+#forma4{
+	position:absolute;
+	top: 0px;
+	left: 300px;
+	width: 300px;
+	}	
 #id_nombre_tipo_material{
 	position:absolute;
 	top: 0px;

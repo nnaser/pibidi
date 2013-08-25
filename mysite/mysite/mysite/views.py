@@ -522,6 +522,8 @@ def bodega_view(request):
 				p.save()
 				form = bodegaform()
 				ctx={'form':form}
+
+				messages.success(request,'Registro exitoso')
 				return render_to_response('adm.html',ctx,context_instance=RequestContext(request))
 			else:
 				ctx={'form':form}
@@ -618,6 +620,8 @@ def area_view(request):
 				bodegas=Bodega.objects.all()
 				form = areaform()
 				ctx={'form':form,"bodegas":bodegas}
+
+				messages.success(request,'Registro exitoso')
 				return render_to_response('adm-area.html',ctx,context_instance=RequestContext(request))
 			else:
 				bodegas=Bodega.objects.all()
@@ -715,8 +719,11 @@ def grupo_view(request):
 			
 				form = grupoform()
 				ctx={'form':form}
+
+				messages.success(request,'Registro exitoso')
 				return render_to_response('adm-grupo.html',ctx,context_instance=RequestContext(request))
 			else:
+
 				ctx={'form':form}
 				return render_to_response('adm-grupo.html',ctx,context_instance=RequestContext(request))
 		else: #GET
@@ -988,6 +995,8 @@ def carro_cotizar_view(request):
 				
 				productos=Productos.objects.all()
 				ctx={'productos':productos,'form':form}
+
+				messages.success(request,'Cotizacion registrada')
 				return render_to_response('carro_cotizar.html',ctx,context_instance=RequestContext(request))
 			else:
 				form = cotizarform()
@@ -1177,6 +1186,8 @@ def carro_ventas_view(request):
 			
 				productos=Productos.objects.all()
 				ctx={'productos':productos,'form':form}
+
+				messages.success(request,'Venta registrada')
 				return render_to_response('carro_ventas.html',ctx,context_instance=RequestContext(request))
 			else:
 				form = ventasform()
@@ -1319,14 +1330,29 @@ def carro_orden_view(request):
 								z.cantidad_material=i.cantidad
 								z.save()
 							p.delete()
-						
-					
+							form = ordenform()
+						else:
+							if form.is_valid()!=True:
+							
+								proveedores=Proveedor.objects.all()
+								ctx={'form':form,"proveedores":proveedores}
+
+								messages.success(request,'Orden de compra registrada')
+								return render_to_response('carro_orden.html',ctx,context_instance=RequestContext(request))
+							if valor!=0:
+								proveedores=Proveedor.objects.all()
+								ctx={'form':form,"proveedores":proveedores}
+
+								messages.success(request,'Orden de compra registrada')
+								return render_to_response('carro_orden.html',ctx,context_instance=RequestContext(request))
 					
 						
 				form = ordenform()
 				proveedores=Proveedor.objects.all()
 				productos=Productos.objects.all()
 				ctx={'productos':productos,'form':form,"proveedores":proveedores}
+
+				messages.success(request,'Orden de compra registrada')
 				return render_to_response('carro_orden.html',ctx,context_instance=RequestContext(request))
 			else:
 				form = ordenform()

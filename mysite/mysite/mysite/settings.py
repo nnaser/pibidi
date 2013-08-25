@@ -10,7 +10,6 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
     #('Camilo Correa Ruz', 'camilo.correa.ruz@gmail.com'),
 )
-
 MANAGERS = ADMINS
 
 DATABASES = {

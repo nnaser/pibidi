@@ -152,7 +152,10 @@
 				<form action="," method="POST">
 					
 					{%csrf_token%}
-					{{ form.as_p}}
+					<div id="forma1">
+					<label>Bodega:</label>
+					{{form.direccion}}
+					</div>
 
 					<div id="agregar">
 						<input type="submit" value="Agregar">
@@ -161,7 +164,9 @@
 
 					
 				</form>
-			
+			<div id="forma4">
+				<span style="font-weight: bold; color: #FF0000;">{{form.direccion.errors}}</span>
+			</div>
 		</div>
 	</div>
 	
