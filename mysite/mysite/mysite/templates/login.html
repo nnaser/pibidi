@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  <title>Mi primera pagina con estilo</title>
+  
+  <style rel="stylesheet">{% include './login.css'%}</style>
+ 
+</head>
+<body>
+	<div id ="imagen1">
+		<img  src="/templates/header.png">
+	</div>
+	
+	<div id ="imagen">
+		<img  src="/templates/usuario.jpg">
+	</div>
+	
+	
+	<div id="marco">
+		<div id="titulo">
+			<h2>Frasim</h2>
+	</div>
+	
+	<form  action="" method="POST">
+		<div id="formulario">		
+			
+						
+				{%csrf_token%}
+				
+				<div id="forma">
+					<label>Nombre:</label>
+					{{ form.nombre}}
+					
+				</div>
+				
+				<div id="forma1">
+					<label>Contrasena:</label>
+					{{ form.contrasena}}
+					
+				</div>
+				<div id="forma2">
+					<label>Opcion:</label>
+					{{ form.opcion}}
+				</div>
+				
+				<input type="submit" value="Login" id="entrar">
+							
+			
+		</div>
+		
+	</form>
+	
+	<div id="forma3">
+		
+		<span style="font-weight: bold; color: #FF0000;">{{form.nombre.errors}}</span>
+		<span style="font-weight: bold; color: #FF0000;">{{form.contrasena.errors}}</span>
+	</div>
+	
+</body>
+</html>
