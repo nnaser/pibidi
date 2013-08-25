@@ -371,8 +371,21 @@ class despachoform(forms.Form):
 class kitsform(forms.Form):
 	
 	nombre_kits=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
-	precio_kits=forms.CharField(widget=forms.TextInput(attrs={ 'required': 'true' }))
+	precio_kits=forms.IntegerField(widget=forms.TextInput(attrs={ 'required': 'true' }),error_messages={ 'invalid': 'Ingresar un precio valido'})
 
 	def clean(self):
 
 		return self.cleaned_data
+
+	def clean_nombre_kits(self):
+		a=self.cleaned_data
+		marca=a.get('nombre_kits')
+		if len(marca)<8:
+			raise ValidationError('Por favor ingrese un modelo de mas de 8 caracteres')
+		return marca
+	def clean_precio_kits(self):
+		a=self.cleaned_data
+		b=a.get('precio_kits')
+		if b<1:
+			raise ValidationError('Precio negativo, por favor ingrese un valor positivo')
+		return b

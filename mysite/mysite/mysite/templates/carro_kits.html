@@ -139,7 +139,7 @@
 							{{ form.precio_kits}}
 						
 						</div>
-						
+
 						<input id="generar" type="submit" value="generar KITS" name="elige">
 				
 			</div>
@@ -186,6 +186,13 @@
 				
 				
 			</form>
+									<div id='forma4'>
+							<span style="font-weight: bold; color: #FF0000;">{{form.nombre_kits.errors}}</span>
+						</div>
+						<div id='forma5'>
+
+							<span style="font-weight: bold; color: #FF0000;">{{form.precio_kits.errors}}</span>
+						</div>
 			<div id="info10">
 			{{informacion}}
 			</div>

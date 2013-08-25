@@ -540,14 +540,9 @@ def actualizar_bodega_view(request):
 
 			if request.method == "POST":
 				lala=request.POST.keys()
-				
-			
-			
 				for clave in lala:
 					if clave=="lala":
 						p=Bodega.objects.get(cod_bodega=request.POST["lala"])
-						
-					
 						ctx={"bodega":p}
 						return render_to_response('act-bodega.html',ctx,context_instance=RequestContext(request))
 						
@@ -724,7 +719,9 @@ def grupo_view(request):
 				return render_to_response('adm-grupo.html',ctx,context_instance=RequestContext(request))
 			else:
 
-				ctx={'form':form}
+				bodegas=Bodega.objects.all()
+				areas=Area.objects.all()
+				ctx={'form':form,'bodegas':bodegas,'areas':areas}
 				return render_to_response('adm-grupo.html',ctx,context_instance=RequestContext(request))
 		else: #GET
 			bodegas=Bodega.objects.all()
@@ -1270,36 +1267,24 @@ def carro_orden_view(request):
 				form=ordenform(request.POST)
 				lala=request.POST.keys()
 				ahora = datetime.datetime.now()
-				
-			
 				for clave in lala:
 					if "Eliminar"==request.POST[clave]:
 						p=Productos.objects.filter(codigo_material=clave)
-						p.delete()
-						
-							
-					if "generar orden"==request.POST[clave]:
-								
-									
-									
+						p.delete()							
+					if "generar orden"==request.POST[clave]:									
 						#########################################
 						p=Productos.objects.all()
-					
 						for clave in p:
 							w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
 							aa=request.POST[str(clave.marca)+str(clave.modelo)+str(clave.nombre)]
 							if aa=="":
 								valor=1
-								
 						if valor==0:		
 							for clave in p:
-								
 								w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
 								w.cantidad=int(aa)
 								w.save()
-							
 						if form.is_valid() and valor==0 :
-							
 							direc_emision=form.cleaned_data['direc_emision']
 							condicion_pago=form.cleaned_data['condicion_pago']
 							q=Orden_de_compra()
@@ -1312,12 +1297,7 @@ def carro_orden_view(request):
 							lala=Orden_de_compra.objects.all()
 							largo=len(lala)
 							lol=lala[largo-1]
-						
-							
-							
-							
 							p=Productos.objects.all()
-							
 							for i in p:
 								z=Detalle_oc()
 								z.nro_oc=lol
@@ -1333,11 +1313,8 @@ def carro_orden_view(request):
 							form = ordenform()
 						else:
 							if form.is_valid()!=True:
-							
 								proveedores=Proveedor.objects.all()
 								ctx={'form':form,"proveedores":proveedores}
-
-								messages.success(request,'Orden de compra registrada')
 								return render_to_response('carro_orden.html',ctx,context_instance=RequestContext(request))
 							if valor!=0:
 								proveedores=Proveedor.objects.all()
@@ -1976,15 +1953,9 @@ def carro_kits_view(request):
 						q.nombre_kits=nombre
 						q.precio_kits=precio
 						q.save()
-						
-					
 						lala=Kits.objects.all()
 						largo=len(lala)
-						lol=lala[largo-1]
-					
-						
-						
-						
+						lol=lala[largo-1]					
 						p=Productos.objects.all()
 						
 						for i in p:
@@ -1999,16 +1970,16 @@ def carro_kits_view(request):
 							z.cantidad_material=i.cantidad
 							z.save()
 						p.delete()
-						
-						
-						
-					
-						
-						
-				form = kitsform()
-			
-				productos=Productos.objects.all()
-				ctx={'productos':productos,'form':form}
+						form = kitsform()
+					else:
+						if form.is_valid!=True:
+							productos=Productos.objects.all()
+							ctx={'productos':productos,'form':form}
+							return render_to_response('carro_kits.html',ctx,context_instance=RequestContext(request))
+				
+				form =kitsform()
+				#productos=Productos.objects.all()
+				ctx={'form':form}
 				return render_to_response('carro_kits.html',ctx,context_instance=RequestContext(request))
 			else:
 				form = kitsform()

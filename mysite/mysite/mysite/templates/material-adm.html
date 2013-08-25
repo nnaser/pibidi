@@ -165,13 +165,11 @@
 					<div id="forma4">
 							<label>Precio:</label>
 							{{ form.precio_material}}
-							<span style="font-weight: bold; color: #FF0000;">{{form.precio_material.errors}}</span>
 					</div>
 					
 					<div id="forma7">
 							<label>Cantidad:</label>
 							{{ form.cantidad_material}}
-							<span style="font-weight: bold; color: #FF0000;">{{form.cantidad_material.errors}}</span>
 					</div>
 
 					
@@ -218,7 +216,10 @@
 					
 			</form>
 			
-			
+			<div id='forma5'>
+				<span style="font-weight: bold; color: #FF0000;">{{form.precio_material.errors}}</span>			
+				<span style="font-weight: bold; color: #FF0000;">{{form.cantidad_material.errors}}</span>
+			</div>
 			
 			
 			
