@@ -7,10 +7,7 @@ from frasim.forms import *
 
 from django.contrib.auth import *
 from django.http import *
-
 from django.contrib import messages
-
-
 
 
 
@@ -46,6 +43,7 @@ def Login_view(request):
 
 
 		
+		
 		if request.method == "POST":
 			form=loginform(request.POST)
 			
@@ -62,15 +60,15 @@ def Login_view(request):
 					else:
 						if opcion=='vendedor' and Vendedor.objects.filter(nombre_vendedor=nombre,contrasena_vendedor=contrasena,rol="vendedor"):
 							return HttpResponseRedirect('/ventas_vendedor/')
+						
 					
 				
-			
 				form = loginform()
 				ctx={'form':form}
 				return render_to_response('login.html',ctx,context_instance=RequestContext(request))
-			else:
+			else:				
 				ctx={'form':form}
-				return render_to_response('login.html',ctx,context_instance=RequestContext(request))				
+				return render_to_response('login.html',ctx,context_instance=RequestContext(request))
 		else: #GET
 			form = loginform()
 			ctx={'form':form}
@@ -146,15 +144,20 @@ def material_view(request):
 										q.cod_tipo_mat=w.cod_tipo_mat
 										q.nombre_material=w.nombre_material
 										q.save()	
+						
+						
+						
+						
+						
 							grupos=Tipo_material.objects.all()
 							materiales=Material.objects.all()
 							form = materialform()
+							#messages.success(request,'Registro exitoso')
 							ctx={'form':form,"grupos":grupos,"materiales":materiales}
-							messages.success(request,'Registro exitoso')
 							return render_to_response('material-adm.html',ctx,context_instance=RequestContext(request))
-						else:	
-							materiales=Material.objects.all()		
+						else:
 							grupos=Tipo_material.objects.all()
+							materiales=Material.objects.all()
 							ctx={'form':form,"grupos":grupos,"materiales":materiales}
 							return render_to_response('material-adm.html',ctx,context_instance=RequestContext(request))
 		else: #GET
@@ -224,6 +227,13 @@ def eliminar_material_view(request):
 			
 			for clave in lala:
 				if "Eliminar"==request.POST[clave]:
+					w=Detalle_kits.objects.all()
+					for i in w:
+						if clave==i.cod_mat:
+							materiales=Material.objects.all()
+							info="ERROR: NO ES POSIBLE ELIMINAR EL MATERIAL, DEBIDO A SU PERTENENCIA A UN KIT"
+							ctx={'materiales':materiales,'informacion':info}
+							return render_to_response('eliminar-material-adm.html',ctx,context_instance=RequestContext(request))
 					p=Material.objects.filter(cod_material=clave)
 					p.delete()
 					
@@ -290,6 +300,52 @@ def compatible_view(request):
 				
 				ctx={'materiales':materiales}
 				return render_to_response('compatible.html',ctx,context_instance=RequestContext(request))
+
+
+
+def compatible_vendedor_view(request):
+
+
+			if request.method == "POST":
+				lala=request.POST.keys()
+			
+				aa=False
+				
+				
+				
+				for clave in lala:
+					
+					if clave=="codigo":
+						aa=True
+					if "Ver"==request.POST[clave]:
+						p=Compatibilidad.objects.filter(cod_mat=clave)
+						
+						ctx={"material":p}
+						return render_to_response('detalle-comp-vendedor.html',ctx,context_instance=RequestContext(request))
+				if aa==True:		
+					p=Material.objects.get(cod_material=request.POST["codigo"])
+					p.id_marca=request.POST["marca"]
+					p.id_modelo=request.POST["modelo"]
+					
+					p.cod_tipo_mat=request.POST["cod_grupo"]
+					p.nombre_material=request.POST["nombre"]
+					p.precio_material=request.POST["precio"]
+					
+				
+					p.cantidad_material=request.POST["cantidad"]
+					p.save()
+					materiales=Material.objects.all()
+					ctx={'materiales':materiales}
+					return render_to_response('compatible-vendedor.html',ctx,context_instance=RequestContext(request))
+				else:
+					materiales=Material.objects.all()
+					ctx={'materiales':materiales}
+					return render_to_response('compatible-vendedor.html',ctx,context_instance=RequestContext(request))
+			else:
+				materiales=Material.objects.all()
+				
+				ctx={'materiales':materiales}
+				return render_to_response('compatible-vendedor.html',ctx,context_instance=RequestContext(request))				
 			
 			
 
@@ -315,6 +371,11 @@ def proveedor_view(request):
 				p.movil_proveedor=movil_proveedor
 				p.correo_proveedor=correo_proveedor
 				p.save()
+							
+					
+				
+				
+				
 				form = proveedorform()
 				ctx={'form':form}
 				messages.success(request,'Registro exitoso')
@@ -422,13 +483,17 @@ def vendedor_view(request):
 				p.edad_vendedor=edad_vendedor
 				p.rol=rol
 				p.save()
+								
+					
+
+					
+				
 				form = vendedorform()
 				ctx={'form':form}
 				messages.success(request,'Registro exitoso')
 				return render_to_response('vendedor-adm.html',ctx,context_instance=RequestContext(request))
 			else:
 				ctx={'form':form}
-
 				return render_to_response('vendedor-adm.html',ctx,context_instance=RequestContext(request))
 		else: #GET
 			form = vendedorform()
@@ -524,9 +589,13 @@ def bodega_view(request):
 			
 				p.direccion=direccion
 				p.save()
+				
+
+			
+					
+			
 				form = bodegaform()
 				ctx={'form':form}
-
 				messages.success(request,'Registro exitoso')
 				return render_to_response('adm.html',ctx,context_instance=RequestContext(request))
 			else:
@@ -544,9 +613,14 @@ def actualizar_bodega_view(request):
 
 			if request.method == "POST":
 				lala=request.POST.keys()
+				
+			
+			
 				for clave in lala:
 					if clave=="lala":
 						p=Bodega.objects.get(cod_bodega=request.POST["lala"])
+						
+					
 						ctx={"bodega":p}
 						return render_to_response('act-bodega.html',ctx,context_instance=RequestContext(request))
 						
@@ -599,10 +673,10 @@ def area_view(request):
 		if request.method == "POST":
 			form=areaform(request.POST)
 			
-			
 			if form.is_valid() :
-				print "lala"
+				
 				q=Bodega.objects.get(direccion=request.POST["opcion"])
+				
 				cod_bodega=q.cod_bodega
 				pasillo=form.cleaned_data['pasillo']
 				estante=form.cleaned_data['estante']
@@ -616,16 +690,22 @@ def area_view(request):
 				p.gaveta=gaveta
 				p.save()
 				
+
+		
+			
 				bodegas=Bodega.objects.all()
 				form = areaform()
 				ctx={'form':form,"bodegas":bodegas}
-
+				
 				messages.success(request,'Registro exitoso')
 				return render_to_response('adm-area.html',ctx,context_instance=RequestContext(request))
 			else:
 				bodegas=Bodega.objects.all()
+			
 				ctx={'form':form,"bodegas":bodegas}
-				return render_to_response('adm-area.html',ctx,context_instance=RequestContext(request))
+				
+
+				return render_to_response('adm-area.html',ctx,context_instance=RequestContext(request))				
 
 		else: #GET
 			bodegas=Bodega.objects.all()
@@ -715,18 +795,23 @@ def grupo_view(request):
 					p.cod_bodega=cod_bodega
 					p.cod_area=cod_area
 					p.save()
-			
-				form = grupoform()
-				ctx={'form':form}
+					
+				
 
+			
+			
+				bodegas=Bodega.objects.all()
+				areas=Area.objects.all()
+				form = grupoform()
+				ctx={'form':form,'bodegas':bodegas,'areas':areas}
 				messages.success(request,'Registro exitoso')
 				return render_to_response('adm-grupo.html',ctx,context_instance=RequestContext(request))
 			else:
-
 				bodegas=Bodega.objects.all()
 				areas=Area.objects.all()
 				ctx={'form':form,'bodegas':bodegas,'areas':areas}
 				return render_to_response('adm-grupo.html',ctx,context_instance=RequestContext(request))
+
 		else: #GET
 			bodegas=Bodega.objects.all()
 			areas=Area.objects.all()
@@ -776,7 +861,18 @@ def eliminar_grupo_view(request):
 			
 				for clave in lala:
 					if "Eliminar"==request.POST[clave]:
-						p=Tipo_material.objects.filter(codigo_tipo_material=clave)
+						w=Material.objects.all()
+						p=Tipo_material.objects.get(codigo_tipo_material=clave)
+						
+						for i in w:
+							print i
+							
+							if p.nombre_tipo_material==i.cod_tipo_mat:
+								grupos=Tipo_material.objects.all()
+								info="ERROR: NO SE PUEDE ELIMINAR EL GRUPO, DEBIDO A QUE EXISTEN MATERIALES QUE PERTENECEN A EL"
+								ctx={'grupos':grupos,'informacion':info}
+								return render_to_response('eliminar-grupo.html',ctx,context_instance=RequestContext(request))
+						
 						p.delete()
 						
 						
@@ -816,6 +912,18 @@ def cotizar_view(request):
 						q.cantidad=p.cantidad_material
 						q.save()
 						
+					if "kits"==request.POST[clave]:
+						p=Kits.objects.get(cod_kits=clave)
+						q=Productos()
+						
+						q.marca=""
+						q.modelo=""
+						q.codigo_tipo_mat="kits"
+						q.nombre=p.nombre_kits
+						q.precio=p.precio_kits
+						q.cantidad=0
+						q.save()	
+						
 				
 				
 				grupos=Tipo_material.objects.all()
@@ -824,23 +932,36 @@ def cotizar_view(request):
 				return render_to_response('cotizar-adm.html',ctx,context_instance=RequestContext(request))
 				
 			else:
+								
 				lala=request.POST.keys()
 				
+				
 				for clave in lala:
-					if clave=="opcion":	
-					
-						materiales=Material.objects.filter(cod_tipo_mat=request.POST["opcion"]) 
-						grupos=Tipo_material.objects.all()
-						form = cotizarform()
-						form2 = buscaform()
-						ctx={'form':form,'form2':form2,"materiales":materiales,"grupos":grupos}
-						return render_to_response('cotizar-adm.html',ctx,context_instance=RequestContext(request))
+					if clave=="opcion":
+				
 						
+							
+						if request.POST["opcion"]=="kits":
+							print "hola"
+							materiales=Kits.objects.all() 
+							print materiales
+							grupos=Tipo_material.objects.all()
+							ctx={"materiales":materiales,"grupos":grupos}
+							return render_to_response('cotizar-kits-adm.html',ctx,context_instance=RequestContext(request))
+						
+						else:
+							print "chao"
+							materiales=Material.objects.filter(cod_tipo_mat=request.POST["opcion"]) 
+							grupos=Tipo_material.objects.all()
+							ctx={"materiales":materiales,"grupos":grupos}
+							return render_to_response('cotizar-adm.html',ctx,context_instance=RequestContext(request))
 					else:
 						grupos=Tipo_material.objects.all()
 						form2=buscaform()
 						ctx={'form2':form2,"grupos":grupos}
 						return render_to_response('cotizar-adm.html',ctx,context_instance=RequestContext(request))
+
+					
 			
 		else: #GET
 			grupos=Tipo_material.objects.all()
@@ -892,6 +1013,7 @@ def eliminar_cotizar_view(request):
 						
 						
 						for i in q:
+							aa=i.cantidad_material
 							z=Detalle_venta()
 							z.nro_venta=lol
 							z.cod_mat=i.cod_mat
@@ -903,11 +1025,26 @@ def eliminar_cotizar_view(request):
 							z.cantidad_material=i.cantidad_material
 							z.save()
 							
-							w=Material.objects.get(id_marca=i.id_marca,id_modelo=i.id_modelo)
-							aa=i.cantidad_material
-							descuento=int(w.cantidad_material)-int(aa)
-							w.cantidad_material=str(descuento)
-							w.save()
+							if i.cod_tipo_mat=="kits":
+								
+								w=Kits.objects.get(nombre_kits=i.nombre_material)
+								codigo=w.cod_kits
+								print codigo
+								bb=Detalle_kits.objects.filter(cod_kits=codigo)
+								print bb
+								for i in bb:
+									w=Material.objects.get(cod_material=i.cod_mat)
+									w.cantidad_material=w.cantidad_material-(i.cantidad_material * int(aa))
+									w.save()
+								
+							
+							else:
+							
+								w=Material.objects.get(id_marca=i.id_marca,id_modelo=i.id_modelo)
+								aa=i.cantidad_material
+								descuento=int(w.cantidad_material)-int(aa)
+								w.cantidad_material=str(descuento)
+								w.save()
 						
 						
 						
@@ -943,22 +1080,61 @@ def carro_cotizar_view(request):
 							
 					if "generar cotizacion"==request.POST[clave]:
 						p=Productos.objects.all()
+								
 						for clave in p:
-							w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
-							aa=request.POST[str(clave.marca)+str(clave.modelo)+str(clave.nombre)]
-							if aa=="":
-								valor=1
+							if clave.codigo_tipo_mat=="kits":
+								w=Kits.objects.get(nombre_kits=clave.nombre)
+								aa=request.POST[str(clave.codigo_material)]
+								if aa=="":
+									valor=1
+								else:
+									print "elseeee"
+									try:
+										if int(aa)>0:
+											valor=0
+									except:
+										print "except" 
+										productos=Productos.objects.all()
+										info="CANTIDAD INVALIDA"
+										ctx={'productos':productos,'form':form,"informacion":info}
+										return render_to_response('carro_cotizar.html',ctx,context_instance=RequestContext(request))
+							
+							else:
+								w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
+								aa=request.POST[str(clave.codigo_material)]
+								if aa=="":
+									valor=1
+								else:
+									print "elseeee"
+									try:
+										if int(aa)>0:
+											valor=0
+									except:
+										print "except" 
+										productos=Productos.objects.all()
+										info="CANTIDAD INVALIDA"
+										ctx={'productos':productos,'form':form,"informacion":info}
+										return render_to_response('carro_cotizar.html',ctx,context_instance=RequestContext(request))	
 						
 						if valor==0:
-							for clave in p:
-								w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
-								aa=request.POST[str(clave.marca)+str(clave.modelo)+str(clave.nombre)]
-								descuento=int(w.cantidad_material)-int(aa)
-								w.cantidad_material=str(descuento)
+							
 								
-								w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
-								w.cantidad=int(aa)
-								w.save()
+								
+								
+							for clave in p:
+								if clave.codigo_tipo_mat=="kits":
+									print "shiiiiit"
+									w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
+									aa=request.POST[str(clave.codigo_material)]
+									w.cantidad=int(aa)
+									w.save()
+									
+										
+								else:
+									
+									w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
+									w.cantidad=int(aa)
+									w.save()	
 								
 							
 						if form.is_valid() and valor==0:
@@ -991,13 +1167,14 @@ def carro_cotizar_view(request):
 								z.save()
 							
 							p.delete()
+							
+							
+							
 						
 				form = cotizarform()
 				
 				productos=Productos.objects.all()
 				ctx={'productos':productos,'form':form}
-
-				messages.success(request,'Cotizacion registrada')
 				return render_to_response('carro_cotizar.html',ctx,context_instance=RequestContext(request))
 			else:
 				form = cotizarform()
@@ -1005,6 +1182,11 @@ def carro_cotizar_view(request):
 				productos=Productos.objects.all()
 				ctx={'productos':productos,'form':form}
 				return render_to_response('carro_cotizar.html',ctx,context_instance=RequestContext(request))
+				
+				
+				
+				
+	
 				
 				
 				
@@ -1026,7 +1208,7 @@ def ventas_view(request):
 						p=Material.objects.get(cod_material=clave)
 						q=Productos()
 						
-						q.codigo_material=p.cod_material
+						
 						q.marca=p.id_marca
 						q.modelo=p.id_modelo
 						q.codigo_tipo_mat=p.cod_tipo_mat
@@ -1034,7 +1216,17 @@ def ventas_view(request):
 						q.precio=p.precio_material
 						q.cantidad=p.cantidad_material
 						q.save()
+					if "kits"==request.POST[clave]:
+						p=Kits.objects.get(cod_kits=clave)
+						q=Productos()
 						
+						q.marca=""
+						q.modelo=""
+						q.codigo_tipo_mat="kits"
+						q.nombre=p.nombre_kits
+						q.precio=p.precio_kits
+						q.cantidad=0
+						q.save()
 				
 			
 				grupos=Tipo_material.objects.all()
@@ -1049,12 +1241,22 @@ def ventas_view(request):
 				for clave in lala:
 					if clave=="opcion":
 				
-						materiales=Material.objects.filter(cod_tipo_mat=request.POST["opcion"]) 
+						
 							
-						form2 = buscaform()
-						grupos=Tipo_material.objects.all()
-						ctx={'form2':form2,"materiales":materiales,"grupos":grupos}
-						return render_to_response('ventas-adm.html',ctx,context_instance=RequestContext(request))
+						if request.POST["opcion"]=="kits":
+							print "hola"
+							materiales=Kits.objects.all() 
+							print materiales
+							grupos=Tipo_material.objects.all()
+							ctx={"materiales":materiales,"grupos":grupos}
+							return render_to_response('ventas-kits-adm.html',ctx,context_instance=RequestContext(request))
+						
+						else:
+							print "chao"
+							materiales=Material.objects.filter(cod_tipo_mat=request.POST["opcion"]) 
+							grupos=Tipo_material.objects.all()
+							ctx={"materiales":materiales,"grupos":grupos}
+							return render_to_response('ventas-adm.html',ctx,context_instance=RequestContext(request))
 					else:
 						grupos=Tipo_material.objects.all()
 						form2=buscaform()
@@ -1062,8 +1264,10 @@ def ventas_view(request):
 						return render_to_response('ventas-adm.html',ctx,context_instance=RequestContext(request))
 		else: #GET
 			grupos=Tipo_material.objects.all()
+			kits="kits"
+			print grupos
 			form2=buscaform()
-			ctx={'form2':form2,"grupos":grupos}
+			ctx={'form2':form2,"grupos":grupos,"kits":kits}
 			return render_to_response('ventas-adm.html',ctx,context_instance=RequestContext(request))
 			
 			
@@ -1117,66 +1321,112 @@ def carro_ventas_view(request):
 				lala=request.POST.keys()
 				mm=""
 				ahora = datetime.datetime.now()
-				if request.POST["elige"]=='eliminar':
+				
 			
-					for clave in lala:
-						if clave==request.POST[clave]:
-							p=Productos.objects.filter(codigo_material=clave)
-							p.delete()
+				for clave in lala:
+					if "Eliminar"==request.POST[clave]:
+						p=Productos.objects.filter(codigo_material=clave)
+						p.delete()
 						
 							
-				else:
-					p=Productos.objects.all()
-					
-					for clave in p:
-						w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
-						aa=request.POST[str(clave.marca)+str(clave.modelo)+str(clave.nombre)]
-						if aa=="":
-							valor=1
-							
-					if valor==0:		
-						for clave in p:
-							w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
-							aa=request.POST[str(clave.marca)+str(clave.modelo)+str(clave.nombre)]
-							descuento=int(w.cantidad_material)-int(aa)
-							w.cantidad_material=str(descuento)
-							w.save()
-							
-							w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
-							w.cantidad=int(aa)
-							w.save()
-						
-					if form.is_valid() and valor==0 :
-						
-						rut_vendedor=form.cleaned_data['rut_vendedor']
-						
-						q=Venta()
-						
-						q.rut_vendedor=rut_vendedor
-						q.fecha_venta=str(ahora.day)+"/"+str(ahora.month)+"/"+ str(ahora.year)
-						q.hora_venta=str(ahora.hour)+":"+str(ahora.minute)+":"+str(ahora.second)
-						q.save()
-						lala=Venta.objects.all()
-						largo=len(lala)
-						lol=lala[largo-1]
-					
-						
-						
-						
+					if "generar venta"==request.POST[clave]:
 						p=Productos.objects.all()
 						
-						for i in p:
-							z=Detalle_venta()
-							z.nro_venta=lol
-							z.cod_mat=i.codigo_material
-							z.id_marca=i.marca
-							z.id_modelo=i.modelo
-							z.cod_tipo_mat=i.codigo_tipo_mat
-							z.nombre_material=i.nombre
-							z.precio_material=i.precio
-							z.cantidad_material=i.cantidad
-							z.save()
-						p.delete()
+						for clave in p:
+							if clave.codigo_tipo_mat=="kits":
+								w=Kits.objects.get(nombre_kits=clave.nombre)
+								aa=request.POST[str(clave.codigo_material)]
+								if aa=="":
+									valor=1
+								else:
+									print "elseeee"
+									try:
+										if int(aa)>0:
+											valor=0
+									except:
+										print "except" 
+										productos=Productos.objects.all()
+										info="CANTIDAD INVALIDA"
+										ctx={'productos':productos,'form':form,"informacion":info}
+										return render_to_response('carro_ventas.html',ctx,context_instance=RequestContext(request))
+							
+							else:
+								w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
+								aa=request.POST[str(clave.codigo_material)]
+								if aa=="":
+									valor=1
+								else:
+									print "elseeee"
+									try:
+										if int(aa)>0:
+											valor=0
+									except:
+										print "except" 
+										productos=Productos.objects.all()
+										info="ERROR: CANTIDAD INVALIDA"
+										ctx={'productos':productos,'form':form,"informacion":info}
+										return render_to_response('carro_ventas.html',ctx,context_instance=RequestContext(request))
+								
+						if valor==0:		
+							for clave in p:
+								if clave.codigo_tipo_mat=="kits":
+									print "shiiiiit"
+									w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
+									aa=request.POST[str(clave.codigo_material)]
+									w.cantidad=int(aa)
+									w.save()
+									w=Kits.objects.get(nombre_kits=clave.nombre)
+									codigo=w.cod_kits
+									print codigo
+									bb=Detalle_kits.objects.filter(cod_kits=codigo)
+									print bb
+									for i in bb:
+										w=Material.objects.get(cod_material=i.cod_mat)
+										w.cantidad_material=w.cantidad_material-(i.cantidad_material * int(aa))
+										w.save()
+										
+								else:
+									w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
+									aa=request.POST[str(clave.codigo_material)]
+									descuento=int(w.cantidad_material)-int(aa)
+									w.cantidad_material=str(descuento)
+									w.save()
+									
+									w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
+									w.cantidad=int(aa)
+									w.save()
+							
+						if form.is_valid() and valor==0 :
+							
+							rut_vendedor=form.cleaned_data['rut_vendedor']
+							
+							q=Venta()
+							
+							q.rut_vendedor=rut_vendedor
+							q.fecha_venta=str(ahora.day)+"/"+str(ahora.month)+"/"+ str(ahora.year)
+							q.hora_venta=str(ahora.hour)+":"+str(ahora.minute)+":"+str(ahora.second)
+							q.save()
+							lala=Venta.objects.all()
+							largo=len(lala)
+							lol=lala[largo-1]
+						
+							
+							
+							
+							p=Productos.objects.all()
+							
+							for i in p:
+								z=Detalle_venta()
+								z.nro_venta=lol
+								z.cod_mat=i.codigo_material
+								z.id_marca=i.marca
+								z.id_modelo=i.modelo
+								z.cod_tipo_mat=i.codigo_tipo_mat
+								z.nombre_material=i.nombre
+								z.precio_material=i.precio
+								z.cantidad_material=i.cantidad
+								z.save()
+							p.delete()
 						
 						
 						
@@ -1187,8 +1437,6 @@ def carro_ventas_view(request):
 			
 				productos=Productos.objects.all()
 				ctx={'productos':productos,'form':form}
-
-				messages.success(request,'Venta registrada')
 				return render_to_response('carro_ventas.html',ctx,context_instance=RequestContext(request))
 			else:
 				form = ventasform()
@@ -1271,24 +1519,49 @@ def carro_orden_view(request):
 				form=ordenform(request.POST)
 				lala=request.POST.keys()
 				ahora = datetime.datetime.now()
+				
+			
 				for clave in lala:
 					if "Eliminar"==request.POST[clave]:
 						p=Productos.objects.filter(codigo_material=clave)
-						p.delete()							
-					if "generar orden"==request.POST[clave]:									
+						p.delete()
+						
+							
+					if "generar orden"==request.POST[clave]:
+								
+									
+									
 						#########################################
 						p=Productos.objects.all()
+					
 						for clave in p:
 							w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
-							aa=request.POST[str(clave.marca)+str(clave.modelo)+str(clave.nombre)]
+						
+							aa=request.POST[str(clave.codigo_material)]
 							if aa=="":
 								valor=1
+							else:
+								print "elseeee"
+								try:
+									if int(aa)>0:
+										valor=0
+								except:
+									print "except" 
+									productos=Productos.objects.all()
+									proveedores=Proveedor.objects.all()
+									info="CANTIDAD INVALIDA"
+									ctx={'productos':productos,'form':form,"informacion":info,"proveedores":proveedores}
+									return render_to_response('carro_orden.html',ctx,context_instance=RequestContext(request))
+								
 						if valor==0:		
 							for clave in p:
+								
 								w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
 								w.cantidad=int(aa)
 								w.save()
+							
 						if form.is_valid() and valor==0 :
+							
 							direc_emision=form.cleaned_data['direc_emision']
 							condicion_pago=form.cleaned_data['condicion_pago']
 							q=Orden_de_compra()
@@ -1301,7 +1574,12 @@ def carro_orden_view(request):
 							lala=Orden_de_compra.objects.all()
 							largo=len(lala)
 							lol=lala[largo-1]
+						
+							
+							
+							
 							p=Productos.objects.all()
+							
 							for i in p:
 								z=Detalle_oc()
 								z.nro_oc=lol
@@ -1327,13 +1605,12 @@ def carro_orden_view(request):
 								messages.success(request,'Orden de compra registrada')
 								return render_to_response('carro_orden.html',ctx,context_instance=RequestContext(request))
 					
+					
 						
 				form = ordenform()
 				proveedores=Proveedor.objects.all()
 				productos=Productos.objects.all()
 				ctx={'productos':productos,'form':form,"proveedores":proveedores}
-
-				messages.success(request,'Orden de compra registrada')
 				return render_to_response('carro_orden.html',ctx,context_instance=RequestContext(request))
 			else:
 				form = ordenform()
@@ -1463,7 +1740,19 @@ def carro_despacho_view(request):
 							w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
 							aa=request.POST[str(clave.marca)+str(clave.modelo)+str(clave.nombre)]
 							if aa=="":
-								valor=1
+									valor=1
+							else:
+								print "elseeee"
+								try:
+									if int(aa)>0:
+										valor=0
+								except:
+									print "except" 
+									productos=Productos.objects.all()
+									proveedores=Proveedor.objects.all()
+									info="CANTIDAD INVALIDA"
+									ctx={'productos':productos,'form':form,"informacion":info,"proveedores":proveedores}
+									return render_to_response('carro_despacho.html',ctx,context_instance=RequestContext(request))	
 								
 						if valor==0:		
 							for clave in p:
@@ -1569,11 +1858,11 @@ def ventas_vendedor_view(request):
 		if request.method == "POST":
 			
 			form2=buscaform(request.POST)
-			
+		
 			
 			if request.POST["busca"]=='agregar':
 				lala=request.POST.keys()
-				
+			
 			
 			
 				for clave in lala:
@@ -1581,7 +1870,7 @@ def ventas_vendedor_view(request):
 						p=Material.objects.get(cod_material=clave)
 						q=Productos()
 						
-						q.codigo_material=p.cod_material
+						
 						q.marca=p.id_marca
 						q.modelo=p.id_modelo
 						q.codigo_tipo_mat=p.cod_tipo_mat
@@ -1589,34 +1878,58 @@ def ventas_vendedor_view(request):
 						q.precio=p.precio_material
 						q.cantidad=p.cantidad_material
 						q.save()
+					if "kits"==request.POST[clave]:
+						p=Kits.objects.get(cod_kits=clave)
+						q=Productos()
 						
+						q.marca=""
+						q.modelo=""
+						q.codigo_tipo_mat="kits"
+						q.nombre=p.nombre_kits
+						q.precio=p.precio_kits
+						q.cantidad=0
+						q.save()
 				
-				
+			
 				grupos=Tipo_material.objects.all()
 				form2 = buscaform()
 				ctx={'form2':form2,"grupos":grupos}
 				return render_to_response('ventas-vendedor.html',ctx,context_instance=RequestContext(request))
 				
 			else:
+				lala=request.POST.keys()
 				
-					
-					
-					
-					materiales=Material.objects.filter(cod_tipo_mat=request.POST["opcion"]) 
-					
-					grupos=Tipo_material.objects.all()
-					form2 = buscaform()
-					ctx={'form2':form2,"materiales":materiales,"grupos":grupos}
-					return render_to_response('ventas-vendedor.html',ctx,context_instance=RequestContext(request))
+				
+				for clave in lala:
+					if clave=="opcion":
+				
 						
-					
-					
-				
-			
+							
+						if request.POST["opcion"]=="kits":
+							print "hola"
+							materiales=Kits.objects.all() 
+							print materiales
+							grupos=Tipo_material.objects.all()
+							ctx={"materiales":materiales,"grupos":grupos}
+							return render_to_response('ventas-kits-vendedor.html',ctx,context_instance=RequestContext(request))
+						
+						else:
+							print "chao"
+							materiales=Material.objects.filter(cod_tipo_mat=request.POST["opcion"]) 
+							grupos=Tipo_material.objects.all()
+							ctx={"materiales":materiales,"grupos":grupos}
+							return render_to_response('ventas-vendedor.html',ctx,context_instance=RequestContext(request))
+					else:
+						grupos=Tipo_material.objects.all()
+						form2=buscaform()
+						ctx={'form2':form2,"grupos":grupos}
+						return render_to_response('ventas-vendedor.html',ctx,context_instance=RequestContext(request))
 		else: #GET
 			grupos=Tipo_material.objects.all()
+			kits="kits"
+			print grupos
 			form2=buscaform()
-			ctx={'form2':form2,"grupos":grupos}
+			ctx={'form2':form2,"grupos":grupos,"kits":kits}
 			return render_to_response('ventas-vendedor.html',ctx,context_instance=RequestContext(request))
 			
 			
@@ -1625,13 +1938,26 @@ def eliminar_ventas_vendedor_view(request):
 			if request.method == "POST":
 				lala=request.POST.keys()
 				
+				
+				
 			
-			
+				
+					
 				for clave in lala:
-					if clave==request.POST[clave]:
+					if "Eliminar"==request.POST[clave]:
 						p=Venta.objects.filter(nro_venta=clave)
 						p.delete()
+						q=Detalle_venta.objects.filter(nro_venta=clave)
+						q.delete()
 						
+					if "Ver"==request.POST[clave]:
+						print "ver"
+						detalles=Detalle_venta.objects.filter(nro_venta=clave)
+						ctx={'detalles':detalles}
+						return render_to_response('detalle-venta-vendedor.html',ctx,context_instance=RequestContext(request))
+							
+							
+							
 						
 				
 				ventas=Venta.objects.all()
@@ -1649,48 +1975,136 @@ def eliminar_ventas_vendedor_view(request):
 		
 def carro_ventas_vendedor_view(request):
 			
+			valor=0
 			
 			
 			if request.method == "POST":
 				form=ventasform(request.POST)
 				lala=request.POST.keys()
-			
-				if request.POST["elige"]=='eliminar':
-			
-					for clave in lala:
-						if clave==request.POST[clave]:
-							p=Productos.objects.filter(codigo_material=clave)
-							p.delete()
-							
-							
-				else:
-					if form.is_valid() :
+				mm=""
+				ahora = datetime.datetime.now()
 				
-						rut_vendedor=form.cleaned_data['rut_vendedor']
-						fecha_venta=form.cleaned_data['fecha_venta']
-						hora_venta=form.cleaned_data['hora_venta']
-						q=Venta()
-					
-						q.rut_vendedor=rut_vendedor
-						q.fecha_venta=fecha_venta
-						q.hora_venta=hora_venta
-						q.save()
-						p=Productos.objects.all()
+			
+				for clave in lala:
+					if "Eliminar"==request.POST[clave]:
+						p=Productos.objects.filter(codigo_material=clave)
 						p.delete()
 						
-				
+							
+					if "generar venta"==request.POST[clave]:
+						p=Productos.objects.all()
+						
+						for clave in p:
+							if clave.codigo_tipo_mat=="kits":
+								w=Kits.objects.get(nombre_kits=clave.nombre)
+								aa=request.POST[str(clave.codigo_material)]
+								if aa=="":
+									valor=1
+								else:
+									print "elseeee"
+									try:
+										if int(aa)>0:
+											valor=0
+									except:
+										print "except" 
+										productos=Productos.objects.all()
+										info="CANTIDAD INVALIDA"
+										ctx={'productos':productos,'form':form,"informacion":info}
+										return render_to_response('carro-ventas-vendedor.html',ctx,context_instance=RequestContext(request))
+							
+							else:
+								w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
+								aa=request.POST[str(clave.codigo_material)]
+								if aa=="":
+									valor=1
+								else:
+									print "elseeee"
+									try:
+										if int(aa)>0:
+											valor=0
+									except:
+										print "except" 
+										productos=Productos.objects.all()
+										info="ERROR: CANTIDAD INVALIDA"
+										ctx={'productos':productos,'form':form,"informacion":info}
+										return render_to_response('carro-ventas-vendedor.html',ctx,context_instance=RequestContext(request))
+								
+						if valor==0:		
+							for clave in p:
+								if clave.codigo_tipo_mat=="kits":
+									print "shiiiiit"
+									w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
+									aa=request.POST[str(clave.codigo_material)]
+									w.cantidad=int(aa)
+									w.save()
+									w=Kits.objects.get(nombre_kits=clave.nombre)
+									codigo=w.cod_kits
+									print codigo
+									bb=Detalle_kits.objects.filter(cod_kits=codigo)
+									print bb
+									for i in bb:
+										w=Material.objects.get(cod_material=i.cod_mat)
+										w.cantidad_material=w.cantidad_material-(i.cantidad_material * int(aa))
+										w.save()
+										
+								else:
+									w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
+									aa=request.POST[str(clave.codigo_material)]
+									descuento=int(w.cantidad_material)-int(aa)
+									w.cantidad_material=str(descuento)
+									w.save()
+									
+									w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
+									w.cantidad=int(aa)
+									w.save()
+							
+						if form.is_valid() and valor==0 :
+							
+							rut_vendedor=form.cleaned_data['rut_vendedor']
+							
+							q=Venta()
+							
+							q.rut_vendedor=rut_vendedor
+							q.fecha_venta=str(ahora.day)+"/"+str(ahora.month)+"/"+ str(ahora.year)
+							q.hora_venta=str(ahora.hour)+":"+str(ahora.minute)+":"+str(ahora.second)
+							q.save()
+							lala=Venta.objects.all()
+							largo=len(lala)
+							lol=lala[largo-1]
+						
+							
+							
+							
+							p=Productos.objects.all()
+							
+							for i in p:
+								z=Detalle_venta()
+								z.nro_venta=lol
+								z.cod_mat=i.codigo_material
+								z.id_marca=i.marca
+								z.id_modelo=i.modelo
+								z.cod_tipo_mat=i.codigo_tipo_mat
+								z.nombre_material=i.nombre
+								z.precio_material=i.precio
+								z.cantidad_material=i.cantidad
+								z.save()
+							p.delete()
+						
+						
+						
+					
 						
 						
 				form = ventasform()
-				
+			
 				productos=Productos.objects.all()
 				ctx={'productos':productos,'form':form}
 				return render_to_response('carro-ventas-vendedor.html',ctx,context_instance=RequestContext(request))
 			else:
 				form = ventasform()
-				
+				now = datetime.datetime.now()
 				productos=Productos.objects.all()
-				ctx={'productos':productos,'form':form}
+				ctx={'productos':productos,'form':form,"tiempo":now}
 				return render_to_response('carro-ventas-vendedor.html',ctx,context_instance=RequestContext(request))
 				
 				
@@ -1703,7 +2117,7 @@ def cotizar_vendedor_view(request):
 		if request.method == "POST":
 			
 			form2=buscaform(request.POST)
-		
+			
 			
 			if request.POST["busca"]=='agregar':
 				lala=request.POST.keys()
@@ -1724,6 +2138,18 @@ def cotizar_vendedor_view(request):
 						q.cantidad=p.cantidad_material
 						q.save()
 						
+					if "kits"==request.POST[clave]:
+						p=Kits.objects.get(cod_kits=clave)
+						q=Productos()
+						
+						q.marca=""
+						q.modelo=""
+						q.codigo_tipo_mat="kits"
+						q.nombre=p.nombre_kits
+						q.precio=p.precio_kits
+						q.cantidad=0
+						q.save()	
+						
 				
 				
 				grupos=Tipo_material.objects.all()
@@ -1732,20 +2158,36 @@ def cotizar_vendedor_view(request):
 				return render_to_response('cotizar-vendedor.html',ctx,context_instance=RequestContext(request))
 				
 			else:
-			
-					
-					
-					
-					materiales=Material.objects.filter(cod_tipo_mat=request.POST["opcion"]) 
-					grupos=Tipo_material.objects.all()
-					form = cotizarform()
-					form2 = buscaform()
-					ctx={'form':form,'form2':form2,"materiales":materiales,"grupos":grupos}
-					return render_to_response('cotizar-vendedor.html',ctx,context_instance=RequestContext(request))
-						
-					
-					
+								
+				lala=request.POST.keys()
 				
+				
+				for clave in lala:
+					if clave=="opcion":
+				
+						
+							
+						if request.POST["opcion"]=="kits":
+							print "hola"
+							materiales=Kits.objects.all() 
+							print materiales
+							grupos=Tipo_material.objects.all()
+							ctx={"materiales":materiales,"grupos":grupos}
+							return render_to_response('cotizar-kits-vendedor.html',ctx,context_instance=RequestContext(request))
+						
+						else:
+							print "chao"
+							materiales=Material.objects.filter(cod_tipo_mat=request.POST["opcion"]) 
+							grupos=Tipo_material.objects.all()
+							ctx={"materiales":materiales,"grupos":grupos}
+							return render_to_response('cotizar-vendedor.html',ctx,context_instance=RequestContext(request))
+					else:
+						grupos=Tipo_material.objects.all()
+						form2=buscaform()
+						ctx={'form2':form2,"grupos":grupos}
+						return render_to_response('cotizar-vendedor.html',ctx,context_instance=RequestContext(request))
+
+					
 			
 		else: #GET
 			grupos=Tipo_material.objects.all()
@@ -1759,15 +2201,82 @@ def eliminar_cotizar_vendedor_view(request):
 			
 			if request.method == "POST":
 				lala=request.POST.keys()
+			
+			
 				
-			
-			
 				for clave in lala:
-					if clave==request.POST[clave]:
+					if "Eliminar"==request.POST[clave]:
+						p=Cotizacion.objects.filter(nro_cotizacion=clave)
+						p.delete()
+						q=Detalle_cotizacion.objects.filter(nro_cotizacion=clave)
+						q.delete()
+				
+					if "Ver"==request.POST[clave]:
+						detalles=Detalle_cotizacion.objects.filter(nro_cotizacion=clave)
+						ctx={'detalles':detalles}
+						return render_to_response('detalle-cotizacion-vendedor.html',ctx,context_instance=RequestContext(request))
+						
+					if "Vender"==request.POST[clave]:
+						p=Cotizacion.objects.get(nro_cotizacion=clave)
+						w=Venta()
+						w.rut_vendedor=p.rut_vendedor
+						w.fecha_venta=p.fecha_cotizacion
+						w.hora_venta=p.hora_cotizacion
+						w.save()
+						
 						p=Cotizacion.objects.filter(nro_cotizacion=clave)
 						p.delete()
 						
+						q=Detalle_cotizacion.objects.filter(nro_cotizacion=clave)
 						
+						lala=Venta.objects.all()
+						largo=len(lala)
+						lol=lala[largo-1]
+					
+						
+						
+						
+						
+						
+						for i in q:
+							aa=i.cantidad_material
+							z=Detalle_venta()
+							z.nro_venta=lol
+							z.cod_mat=i.cod_mat
+							z.id_marca=i.id_marca
+							z.id_modelo=i.id_modelo
+							z.cod_tipo_mat=i.cod_tipo_mat
+							z.nombre_material=i.nombre_material
+							z.precio_material=i.precio_material
+							z.cantidad_material=i.cantidad_material
+							z.save()
+							
+							if i.cod_tipo_mat=="kits":
+								
+								w=Kits.objects.get(nombre_kits=i.nombre_material)
+								codigo=w.cod_kits
+								print codigo
+								bb=Detalle_kits.objects.filter(cod_kits=codigo)
+								print bb
+								for i in bb:
+									w=Material.objects.get(cod_material=i.cod_mat)
+									w.cantidad_material=w.cantidad_material-(i.cantidad_material * int(aa))
+									w.save()
+								
+							
+							else:
+							
+								w=Material.objects.get(id_marca=i.id_marca,id_modelo=i.id_modelo)
+								aa=i.cantidad_material
+								descuento=int(w.cantidad_material)-int(aa)
+								w.cantidad_material=str(descuento)
+								w.save()
+						
+						
+						
+						q=Detalle_cotizacion.objects.filter(nro_cotizacion=clave)
+						q.delete()	
+							
 				
 				cotizaciones=Cotizacion.objects.all()
 				ctx={'cotizaciones':cotizaciones}
@@ -1781,37 +2290,112 @@ def eliminar_cotizar_vendedor_view(request):
 				
 def carro_cotizar_vendedor_view(request):
 			
-			
+			valor=0
 			
 			if request.method == "POST":
 				form=cotizarform(request.POST)
 				lala=request.POST.keys()
+				ahora = datetime.datetime.now()
 				
-				if request.POST["elige"]=='eliminar':
 			
-					for clave in lala:
-						if clave==request.POST[clave]:
-							p=Productos.objects.filter(codigo_material=clave)
+				for clave in lala:
+					if "Eliminar"==request.POST[clave]:
+						p=Productos.objects.filter(codigo_material=clave)
+						p.delete()
+							
+							
+					if "generar cotizacion"==request.POST[clave]:
+						p=Productos.objects.all()
+								
+						for clave in p:
+							if clave.codigo_tipo_mat=="kits":
+								w=Kits.objects.get(nombre_kits=clave.nombre)
+								aa=request.POST[str(clave.codigo_material)]
+								if aa=="":
+									valor=1
+								else:
+									print "elseeee"
+									try:
+										if int(aa)>0:
+											valor=0
+									except:
+										print "except" 
+										productos=Productos.objects.all()
+										info="CANTIDAD INVALIDA"
+										ctx={'productos':productos,'form':form,"informacion":info}
+										return render_to_response('carro-cotizar-vendedor.html',ctx,context_instance=RequestContext(request))
+							
+							else:
+								w=Material.objects.get(id_marca=clave.marca,id_modelo=clave.modelo,nombre_material=clave.nombre)
+								aa=request.POST[str(clave.codigo_material)]
+								if aa=="":
+									valor=1
+								else:
+									print "elseeee"
+									try:
+										if int(aa)>0:
+											valor=0
+									except:
+										print "except" 
+										productos=Productos.objects.all()
+										info="CANTIDAD INVALIDA"
+										ctx={'productos':productos,'form':form,"informacion":info}
+										return render_to_response('carro-cotizar-vendedor.html',ctx,context_instance=RequestContext(request))	
+						
+						if valor==0:
+							
+								
+								
+								
+							for clave in p:
+								if clave.codigo_tipo_mat=="kits":
+									print "shiiiiit"
+									w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
+									aa=request.POST[str(clave.codigo_material)]
+									w.cantidad=int(aa)
+									w.save()
+									
+										
+								else:
+									
+									w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
+									w.cantidad=int(aa)
+									w.save()	
+								
+							
+						if form.is_valid() and valor==0:
+						
+							rut_vendedor=form.cleaned_data['rut_vendedor']
+							
+							q=Cotizacion()
+							
+							q.rut_vendedor=rut_vendedor
+							q.fecha_cotizacion=str(ahora.day)+"/"+str(ahora.month)+"/"+ str(ahora.year)
+							q.hora_cotizacion=str(ahora.hour)+":"+str(ahora.minute)+":"+str(ahora.second)
+							q.save()
+							p=Productos.objects.all()
+							
+							lala=Cotizacion.objects.all()
+							largo=len(lala)
+							lol=lala[largo-1]
+							
+							
+							for i in p:
+								z=Detalle_cotizacion()
+								z.nro_cotizacion=lol
+								z.cod_mat=i.codigo_material
+								z.id_marca=i.marca
+								z.id_modelo=i.modelo
+								z.cod_tipo_mat=i.codigo_tipo_mat
+								z.nombre_material=i.nombre
+								z.precio_material=i.precio
+								z.cantidad_material=i.cantidad
+								z.save()
+							
 							p.delete()
 							
 							
-				else:
-					if form.is_valid() :
-					
-						rut_vendedor=form.cleaned_data['rut_vendedor']
-						fecha_cotizacion=form.cleaned_data['fecha_cotizacion']
-						hora_cotizacion=form.cleaned_data['hora_cotizacion']
-						q=Cotizacion()
-					
-						q.rut_vendedor=rut_vendedor
-						q.fecha_cotizacion=fecha_cotizacion
-						q.hora_cotizacion=hora_cotizacion
-						q.save()
-						p=Productos.objects.all()
-						p.delete()
-					
-					
-						
+							
 						
 				form = cotizarform()
 				
@@ -1922,69 +2506,88 @@ def carro_kits_view(request):
 				form=kitsform(request.POST)
 				lala=request.POST.keys()
 				
-				if request.POST["elige"]=='eliminar':
+				
 			
-					for clave in lala:
-						if clave==request.POST[clave]:
-							p=Productos.objects.filter(codigo_material=clave)
-							p.delete()
+				for clave in lala:
+					if "Eliminar"==request.POST[clave]:
+						p=Productos.objects.filter(codigo_material=clave)
+						p.delete()
 						
 							
-				else:
-					p=Productos.objects.all()
-					
-					for clave in p:
-						aa=request.POST[str(clave.marca)+str(clave.modelo)+str(clave.nombre)]
-						if aa=="":
-							valor=1
-						
-					
-					if valor==0:
-						for clave in p:
-							aa=request.POST[str(clave.marca)+str(clave.modelo)+str(clave.nombre)]
-							w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
-							w.cantidad=int(aa)
-							w.save()
-						
-						
-					if form.is_valid() and valor==0 :
-						
-						nombre=form.cleaned_data['nombre_kits']
-						precio=form.cleaned_data['precio_kits']
-						
-						q=Kits()
-						
-						q.nombre_kits=nombre
-						q.precio_kits=precio
-						q.save()
-						lala=Kits.objects.all()
-						largo=len(lala)
-						lol=lala[largo-1]					
+					if "generar kits"==request.POST[clave]:
 						p=Productos.objects.all()
 						
-						for i in p:
-							z=Detalle_kits()
-							z.cod_kits=lol
-							z.cod_mat=i.codigo_material
-							z.id_marca=i.marca
-							z.id_modelo=i.modelo
-							z.cod_tipo_mat=i.codigo_tipo_mat
-							z.nombre_material=i.nombre
-							z.precio_material=i.precio
-							z.cantidad_material=i.cantidad
-							z.save()
-						p.delete()
-						form = kitsform()
-					else:
-						if form.is_valid!=True:
-							productos=Productos.objects.all()
-							ctx={'productos':productos,'form':form}
-							return render_to_response('carro_kits.html',ctx,context_instance=RequestContext(request))
+						for clave in p:
+							aa=request.POST[str(clave.codigo_material)]
+							if aa=="":
+								valor=1
+							else:
+								print "elseeee"
+								try:
+									if int(aa)>0:
+										valor=0
+								except:
+									print "except" 
+									productos=Productos.objects.all()
+									
+									info="CANTIDAD INVALIDA"
+									ctx={'productos':productos,'form':form,"informacion":info}
+									return render_to_response('carro_kits.html',ctx,context_instance=RequestContext(request))
+							
+						
+						if valor==0:
+							for clave in p:
+								aa=request.POST[str(clave.codigo_material)]
+								w=Productos.objects.get(marca=clave.marca,modelo=clave.modelo,nombre=clave.nombre)
+								w.cantidad=int(aa)
+								w.save()
+							
+							
+						if form.is_valid() and valor==0 :
+							
+							nombre=form.cleaned_data['nombre_kits']
+							precio=form.cleaned_data['precio_kits']
+							
+							q=Kits()
+							
+							q.nombre_kits=nombre
+							q.precio_kits=precio
+							q.save()
+							
+						
+							lala=Kits.objects.all()
+							largo=len(lala)
+							lol=lala[largo-1]
+						
+							
+							
+							
+							p=Productos.objects.all()
+							
+							for i in p:
+								z=Detalle_kits()
+								z.cod_kits=lol
+								z.cod_mat=i.codigo_material
+								z.id_marca=i.marca
+								z.id_modelo=i.modelo
+								z.cod_tipo_mat=i.codigo_tipo_mat
+								z.nombre_material=i.nombre
+								z.precio_material=i.precio
+								z.cantidad_material=i.cantidad
+								z.save()
+							p.delete()
+							form=kitsform()
+						else:
+							if form.is_valid!=True:
+								productos=Productos.objects.all()
+								ctx={'productos':productos,'form':form}
+								return render_to_response('carro_kits.html',ctx,context_instance=RequestContext(request))
 				
 				form =kitsform()
-				#productos=Productos.objects.all()
-				ctx={'form':form}
+				productos=Productos.objects.all()
+				ctx={'form':form,'productos':productos}
 				return render_to_response('carro_kits.html',ctx,context_instance=RequestContext(request))
+
 			else:
 				form = kitsform()
 				
@@ -2024,4 +2627,130 @@ def eliminar_kits_view(request):
 			else:
 				kits=Kits.objects.all()
 				ctx={'kits':kits}
-				return render_to_response('eliminar-kits-adm.html',ctx,context_instance=RequestContext(request))				
+				return render_to_response('eliminar-kits-adm.html',ctx,context_instance=RequestContext(request))
+
+
+
+
+def kits_vendedor_view(request):
+			
+			if request.method == "POST":
+				lala=request.POST.keys()
+				
+				
+			
+			
+				for clave in lala:
+						
+					if "Ver"==request.POST[clave]:	
+							
+						detalles=Detalle_kits.objects.filter(cod_kits=clave)
+						ctx={'detalles':detalles}
+						return render_to_response('detalle-kits-vendedor.html',ctx,context_instance=RequestContext(request))
+							
+							
+							
+						
+				
+				kits=Kits.objects.all()
+				ctx={'kits':kits}
+				return render_to_response('kits-vendedor.html',ctx,context_instance=RequestContext(request))
+			else:
+				kits=Kits.objects.all()
+				ctx={'kits':kits}
+				return render_to_response('kits-vendedor.html',ctx,context_instance=RequestContext(request))		
+
+
+
+
+
+
+def localizacion_view(request):
+
+
+			if request.method == "POST":
+				lala=request.POST.keys()
+			
+				aa=False
+				
+				
+				
+				for clave in lala:
+					
+					if clave=="codigo":
+						aa=True
+					if "Ver"==request.POST[clave]:
+						p=Tipo_material.objects.filter(nombre_tipo_material=clave)
+						
+						ctx={"material":p}
+						return render_to_response('detalle_localizacion.html',ctx,context_instance=RequestContext(request))
+				if aa==True:		
+					p=Material.objects.get(cod_material=request.POST["codigo"])
+					p.id_marca=request.POST["marca"]
+					p.id_modelo=request.POST["modelo"]
+					
+					p.cod_tipo_mat=request.POST["cod_grupo"]
+					p.nombre_material=request.POST["nombre"]
+					p.precio_material=request.POST["precio"]
+					
+				
+					p.cantidad_material=request.POST["cantidad"]
+					p.save()
+					materiales=Material.objects.all()
+					ctx={'materiales':materiales}
+					return render_to_response('localizacion-adm.html',ctx,context_instance=RequestContext(request))
+				else:
+					materiales=Material.objects.all()
+					ctx={'materiales':materiales}
+					return render_to_response('localizacion-adm.html',ctx,context_instance=RequestContext(request))
+			else:
+				materiales=Material.objects.all()
+				
+				ctx={'materiales':materiales}
+				return render_to_response('localizacion-adm.html',ctx,context_instance=RequestContext(request))			
+
+
+
+def localizacion_vendedor_view(request):
+
+
+			if request.method == "POST":
+				lala=request.POST.keys()
+			
+				aa=False
+				
+				
+				
+				for clave in lala:
+					
+					if clave=="codigo":
+						aa=True
+					if "Ver"==request.POST[clave]:
+						p=Tipo_material.objects.filter(nombre_tipo_material=clave)
+						
+						ctx={"material":p}
+						return render_to_response('detalle-localizacion-vendedor.html',ctx,context_instance=RequestContext(request))
+				if aa==True:		
+					p=Material.objects.get(cod_material=request.POST["codigo"])
+					p.id_marca=request.POST["marca"]
+					p.id_modelo=request.POST["modelo"]
+					
+					p.cod_tipo_mat=request.POST["cod_grupo"]
+					p.nombre_material=request.POST["nombre"]
+					p.precio_material=request.POST["precio"]
+					
+				
+					p.cantidad_material=request.POST["cantidad"]
+					p.save()
+					materiales=Material.objects.all()
+					ctx={'materiales':materiales}
+					return render_to_response('localizacion-vendedor.html',ctx,context_instance=RequestContext(request))
+				else:
+					materiales=Material.objects.all()
+					ctx={'materiales':materiales}
+					return render_to_response('localizacion-vendedor.html',ctx,context_instance=RequestContext(request))
+			else:
+				materiales=Material.objects.all()
+				
+				ctx={'materiales':materiales}
+				return render_to_response('localizacion-vendedor.html',ctx,context_instance=RequestContext(request))		

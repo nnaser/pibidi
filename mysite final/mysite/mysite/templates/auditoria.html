@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  <title>Mi primera pagina con estilo</title>
+  <style rel="stylesheet"  >
+  	{% include './auditoria.css' %}
+  </style>
+</head>
+<body>
+
+
+<div id="hd">
+	<div id="titulo">
+		<h2 id="nombre-sitio">Frasim administrador</h2>
+	</div>
+	<div id="user">
+		<p>Bienvenido, Usuario. <a href="{%url auditoria%}">Ver Movimientos de la DB</a> / <a href="{% url vista_bodega%}">Salir</a></p>
+		
+	</div>
+</div>
+
+<div id ="imagen1">
+	<img  src="/templates/header.png">
+</div>
+
+<div id="cuerpo">
+	
+	<img id="imagen2" src="/templates/frasim.png"  >
+	<div id='cssmenu'>
+
+	</div>
+	
+	<div id="contenido">
+		
+		<div id='csshor'>
+			<ul>
+				<li class='active '><a href="{% url auditoria%}"><span>Ver Movimientos</span></a></li>
+				
+				
+			</ul>
+		</div>
+		
+		<div id="ventana">
+			<img id="imagen3" src="/templates/footer.gif"  >
+				<h2>::::::  Movimientos Realizados en la base de datos  ::::::</h2></br></br>
+
+		</div>
+
+		
+				
+
+
+
+			
+		
+	</div>
+	
+</div>
+
+
+
+
+</body>
+</html>
